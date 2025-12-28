@@ -21,7 +21,29 @@ let range_finder_rtl_command =
       fun () -> generate_range_finder_rtl ()]
 ;;
 
+let generate_aoc_rtl () =
+  let module C = Circuit.With_interface (Aoc.I) (Aoc.O) in
+  let scope = Scope.create ~auto_label_hierarchical_ports:true () in
+  let circuit = C.create_exn ~name:"aoc_top" (Aoc.hierarchical scope) in
+  let rtl_circuits =
+    Rtl.create ~database:(Scope.circuit_database scope) Verilog [ circuit ]
+  in
+  let rtl = Rtl.full_hierarchy rtl_circuits |> Rope.to_string in
+  print_endline rtl
+;;
+
+let aoc_rtl_command =
+  Command.basic
+    ~summary:""
+    [%map_open.Command
+      let () = return () in
+      fun () -> generate_aoc_rtl ()]
+;;
+
 let () =
   Command_unix.run
-    (Command.group ~summary:"" [ "range-finder", range_finder_rtl_command ])
+    (Command.group ~summary:"" 
+    [ "range-finder", range_finder_rtl_command 
+    ; "aoc", aoc_rtl_command
+    ])
 ;;
