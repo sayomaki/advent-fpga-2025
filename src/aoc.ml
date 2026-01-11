@@ -18,7 +18,7 @@ end
 module O = struct
   type 'a t = 
     {
-      result : 'a With_valid.t [@bits 32]
+      result : 'a With_valid.t [@bits 8]
     }
   [@@deriving hardcaml]
 end
@@ -26,18 +26,19 @@ end
 let create scope ({ clock; reset; data; data_ready; completed } : _ I.t) : _ O.t
   = 
   let open Always in
-  let _spec = Reg_spec.create ~clock ~clear:reset () in
+  let spec = Reg_spec.create ~clock ~clear:reset () in
   let _data = data in
+  let _ready = data_ready in
   let _completed = completed in
   let _scope = scope in
 
-  let result = Variable.wire ~default:(zero 32) () in
-  let result_valid = Variable.wire ~default:gnd () in
+  let result = Variable.reg spec ~width:8 in
+  let result_valid = Variable.wire ~default:vdd () in
 
   compile 
     [
-      result <-- data;
-      result_valid <-- data_ready;
+      result <-- result.value +:. 1;
+      result_valid <-- vdd;
     ]; 
 
   { result = { value = result.value; valid = result_valid.value } }
