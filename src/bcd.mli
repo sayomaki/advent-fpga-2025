@@ -17,6 +17,7 @@ module O : sig
     { ready : 'a
     ; output : 'a
     ; num_digits : 'a
+    ; is_invalid : 'a
     } 
   [@@deriving hardcaml]
 end

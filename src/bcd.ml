@@ -20,6 +20,7 @@ module O = struct
     { ready : 'a
     ; output : 'a [@bits 40]
     ; num_digits : 'a [@bits 4]
+    ; is_invalid : 'a
     }
   [@@deriving hardcaml]
 end
@@ -47,7 +48,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
 
   let ready = Variable.reg spec ~width:1 in
   let num_digits = Variable.reg spec ~width:4 in
-  let _is_invalid = Variable.reg spec ~width:1 in
+  let is_invalid = Variable.reg spec ~width:1 in
   
   let double_dabble_adder value = mux2 (value >=:. 5) (value +:. 3) value in
 
@@ -80,6 +81,21 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
     (of_int_trunc ~width:4 (i+1), select bcd ~high:((i+1)*4 - 1) ~low:(i*4))
   ) in
 
+  (* AoC 2025 day2 specific -- check if number is "invalid" *)
+  let check_is_invalid bcd digits =
+    mux2 (lsb digits) gnd (
+      mux (srl digits ~by:1) [
+        gnd;  (* 0 digits? *)
+        (* hardcoded cases for 2, 4, 6, 8 and 10 digits respectively *)
+        select bcd ~high:3 ~low:0 ==: select bcd ~high:7 ~low:4;
+        select bcd ~high:7 ~low:0 ==: select bcd ~high:15 ~low:8;
+        select bcd ~high:11 ~low:0 ==: select bcd ~high:23 ~low:12;
+        select bcd ~high:15 ~low:0 ==: select bcd ~high:31 ~low:16;
+        select bcd ~high:19 ~low:0 ==: select bcd ~high:39 ~low:20;
+      ]
+    )
+  in
+
   compile
     [ sm.switch
       [ 
@@ -105,12 +121,13 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         [
           ready <-- vdd;
           num_digits <-- most_sig_digit (List.rev (bcd_value_to_digits bcd_value.value));
+          is_invalid <-- check_is_invalid bcd_value.value num_digits.value;
         ]
         );
       ]
     ];
 
-  { ready = ready.value; output = bcd_value.value; num_digits = num_digits.value }
+  { ready = ready.value; output = bcd_value.value; num_digits = num_digits.value; is_invalid = is_invalid.value }
 ;;
 
 let hierarchical scope = 
