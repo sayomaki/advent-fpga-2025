@@ -19,6 +19,7 @@ module O = struct
   type 'a t = 
     { ready : 'a
     ; output : 'a [@bits 40]
+    ; num_digits : 'a [@bits 4]
     }
   [@@deriving hardcaml]
 end
@@ -45,8 +46,8 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let%hw_var bcd_value = Variable.reg spec ~width:40 in
 
   let ready = Variable.reg spec ~width:1 in
+  let num_digits = Variable.reg spec ~width:4 in
   let _is_invalid = Variable.reg spec ~width:1 in
-  let _num_digits = Variable.reg spec ~width:4 in
   
   let double_dabble_adder value = mux2 (value >=:. 5) (value +:. 3) value in
 
@@ -68,6 +69,16 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
       bits_processed <-- bits_processed.value +:. 1
     ]
   in
+
+  (* helper to find the most significant digit in 10-digit BCD *)
+  let rec most_sig_digit = function
+    | [] -> zero 4
+    | (i, x) :: xs -> mux2 (x ==:. 0) (most_sig_digit xs) i
+  in
+
+  let bcd_value_to_digits bcd = List.init 10 ~f:(fun i ->
+    (of_int_trunc ~width:4 (i+1), select bcd ~high:((i+1)*4 - 1) ~low:(i*4))
+  ) in
 
   compile
     [ sm.switch
@@ -93,12 +104,13 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         (Done,
         [
           ready <-- vdd;
+          num_digits <-- most_sig_digit (List.rev (bcd_value_to_digits bcd_value.value));
         ]
         );
       ]
     ];
 
-  { ready = ready.value; output = bcd_value.value }
+  { ready = ready.value; output = bcd_value.value; num_digits = num_digits.value }
 ;;
 
 let hierarchical scope = 

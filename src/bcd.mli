@@ -16,6 +16,7 @@ module O : sig
   type 'a t = 
     { ready : 'a
     ; output : 'a
+    ; num_digits : 'a
     } 
   [@@deriving hardcaml]
 end
