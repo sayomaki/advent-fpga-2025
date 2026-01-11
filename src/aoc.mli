@@ -18,4 +18,5 @@ module O : sig
   type 'a t = { result : 'a With_valid.t } [@@deriving hardcaml]
 end
 
+val create : Scope.t -> Signal.t I.t -> Signal.t O.t
 val hierarchical : Scope.t -> Signal.t I.t -> Signal.t O.t
