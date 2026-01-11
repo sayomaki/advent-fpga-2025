@@ -20,7 +20,7 @@ let simple_testbench (sim : Harness.Sim.t) =
   inputs.reset := Bits.gnd;
   cycle ();
 
-  inputs.start_value <--. 6767;
+  inputs.start_value <--. 998;
 
   (* Pulse the convert signal *)
   inputs.convert := Bits.vdd;
@@ -34,11 +34,28 @@ let simple_testbench (sim : Harness.Sim.t) =
     cycle ()
   done;
 
+  cycle ();
+
+  (* Helper to increment the BCD value *)
+  let do_increment () =
+    inputs.increment := Bits.vdd;
+    cycle ();
+    inputs.increment := Bits.gnd;
+    cycle ();
+
+    while not (Bits.to_bool !(outputs.ready)) do
+      cycle ()
+    done;
+  in
+    
   let bcd_output = sprintf "%x" (Bits.to_unsigned_int !(outputs.output)) in
   print_s [%message "Result" (bcd_output : string)];
 
-  (* Show in the waveform that [valid] stays high. *)
-  cycle ~n:2 ()
+  for _ = 1 to 12 do
+    do_increment ();
+  done;
+
+  cycle ~n:2 ();
 ;;
 
 (* The [waves_config] argument to [Harness.run] determines where and how to save waveforms
@@ -81,10 +98,11 @@ let%expect_test "Simple test with printing waveforms directly" =
         ~display_rules
           (* [display_rules] is optional, if not specified, it will print all named
              signals in the design. *)
-        ~signals_width:32
+        ~signals_width:22
         ~display_width:186
         ~wave_width:1
         (* [wave_width] configures how many chars wide each clock cycle is *)
+        ~start_cycle:34
         waves)
     simple_testbench;
   [%expect
