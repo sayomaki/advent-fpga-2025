@@ -29,6 +29,7 @@ module States = struct
   type t = 
     | Idle
     | Converting
+    | Incrementing
     | Done
   [@@deriving sexp_of, compare ~localize, enumerate]
 end
@@ -96,6 +97,26 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
     )
   in
 
+  (* another helper to increment a BCD digit *)
+  let increment_bcd_digit digit = mux2 (digit >=:.9) (zero 4) (digit +:. 1) in
+
+  let increment_bcd_value () = 
+    let rec incremented_digits i carry =
+      if i >= 10 then
+        []
+      else
+        let current_digit = select bcd_value.value ~high:((i+1)*4 - 1) ~low:(i*4) in
+        let new_digit = mux2 carry (increment_bcd_digit current_digit) current_digit in
+        let new_carry = mux2 carry (current_digit ==:. 9) gnd in
+      
+        new_digit :: incremented_digits (i+1) new_carry
+    in
+
+    [
+      bcd_value <-- concat_msb (List.rev (incremented_digits 0 vdd)) (* start incrementing; implicit carry -> increment *)
+    ]
+  in
+
   compile
     [ sm.switch
       [ 
@@ -117,11 +138,21 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
           ];
         ]
         );
+        (Incrementing,
+        (increment_bcd_value ()) @ [
+          sm.set_next Done;
+        ]
+        );
         (Done,
         [
           ready <-- vdd;
           num_digits <-- most_sig_digit (List.rev (bcd_value_to_digits bcd_value.value));
           is_invalid <-- check_is_invalid bcd_value.value num_digits.value;
+          
+          when_ increment [
+            ready <-- gnd;
+            sm.set_next Incrementing;
+          ];
         ]
         );
       ]
