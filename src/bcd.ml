@@ -44,10 +44,10 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let _increment = increment in
   let _scope = scope in
 
-  let%hw_var int_value = Variable.reg spec ~width:34 in
+  let int_value = Variable.reg spec ~width:34 in
+  let bcd_value = Variable.reg spec ~width:40 in
   let%hw_var convert_buffer = Variable.reg spec ~width:34 in
   let%hw_var bits_processed = Variable.reg spec ~width:6 in (* keep track processed bits *)
-  let%hw_var bcd_value = Variable.reg spec ~width:40 in
 
   let ready = Variable.wire ~default:gnd () in
   let num_digits = Variable.reg spec ~width:4 in
