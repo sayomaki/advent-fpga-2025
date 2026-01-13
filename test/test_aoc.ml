@@ -23,7 +23,10 @@ let simple_testbench (sim : Harness.Sim.t) =
 
   (* helper to feed input data *)
   let feed_data n = 
-    (* TODO: check if waiting for data ready is working *)
+    while not (Bits.to_bool !(outputs.data_ready)) do
+      cycle ()
+    done;
+
     inputs.data.value <--. n;
     inputs.data.valid := Bits.vdd;
     cycle ();
