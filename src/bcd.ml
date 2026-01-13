@@ -31,7 +31,6 @@ module States = struct
     | Converting
     | Incrementing
     | Checking
-    | Done
   [@@deriving sexp_of, compare ~localize, enumerate]
 end
 
@@ -126,13 +125,15 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         [
           ready <-- vdd;
 
-          when_ convert [
+          if_ convert [
             bcd_value <-- zero 40;
             bits_processed <-- zero 6;
             int_value <-- start_value;
             ready <-- gnd;
             sm.set_next Converting;
-          ]
+          ] (elif increment [
+            sm.set_next Incrementing;
+          ] []);
         ]
         );
         (Converting,
@@ -155,16 +156,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
           ] [
             is_invalid <-- check_is_invalid bcd_value.value num_digits.value;
             checking_digits <-- gnd;
-            sm.set_next Done;
-          ];
-        ]
-        );
-        (Done,
-        [
-          ready <-- vdd;
-
-          when_ increment [
-            sm.set_next Incrementing;
+            sm.set_next Idle;
           ];
         ]
         );
