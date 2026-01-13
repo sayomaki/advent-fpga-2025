@@ -41,7 +41,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
     let end_value = Variable.reg spec ~width:34 in
     let%hw_var range = Variable.reg spec ~width:34 in
     let%hw_var range_counter = Variable.reg spec ~width:34 in
-    let%hw_var invalid_counter = Variable.reg spec ~width:34 in
+    let%hw_var invalid_sum = Variable.reg spec ~width:64 in
 
     let bcd = Bcd.hierarchical scope in
     let number = bcd { Bcd.I.clock = clock; reset = bcd_reset; convert = convert.value; start_value = start_value.value; increment = increment.value } in
@@ -75,12 +75,15 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         when_ (convert_started.value ==: vdd) [
           if_ (range_counter.value <=: range.value) [
             when_ ((number.ready ==: vdd) &: (increment.value ==: gnd)) [
-              invalid_counter <-- invalid_counter.value +: (uresize number.is_invalid ~width:34);
+              when_ (number.is_invalid) [
+                invalid_sum <-- invalid_sum.value +: (uresize number.int_value ~width:64)
+              ];
+
               increment <-- vdd;
               range_counter <-- range_counter.value +:. 1;
             ];
           ] [
-            result <-- uresize invalid_counter.value ~width:64;
+            result <-- invalid_sum.value;
             result_valid <-- vdd;
             
             when_ result_valid.value [
