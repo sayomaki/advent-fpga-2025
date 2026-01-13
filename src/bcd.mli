@@ -15,7 +15,8 @@ end
 module O : sig
   type 'a t = 
     { ready : 'a
-    ; output : 'a
+    ; bcd_value : 'a
+    ; int_value : 'a
     ; num_digits : 'a
     ; is_invalid : 'a
     } 

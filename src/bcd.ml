@@ -18,7 +18,8 @@ end
 module O = struct 
   type 'a t = 
     { ready : 'a
-    ; output : 'a [@bits 34]
+    ; bcd_value : 'a [@bits 40]
+    ; int_value : 'a [@bits 34]
     ; num_digits : 'a [@bits 4]
     ; is_invalid : 'a
     }
@@ -44,6 +45,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let _scope = scope in
 
   let%hw_var int_value = Variable.reg spec ~width:34 in
+  let%hw_var convert_buffer = Variable.reg spec ~width:34 in
   let%hw_var bits_processed = Variable.reg spec ~width:6 in (* keep track processed bits *)
   let%hw_var bcd_value = Variable.reg spec ~width:40 in
 
@@ -62,13 +64,13 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
     ) in
 
     let bcd_adjusted_value = concat_msb (List.rev adjusted_digits) in
-    let next_bit = msb int_value.value in
+    let next_bit = msb convert_buffer.value in
     let bcd_shifted = concat_msb [ sel_bottom ~width:39 bcd_adjusted_value; next_bit] in
-    let int_shifted = sll int_value.value ~by:1 in
+    let int_shifted = sll convert_buffer.value ~by:1 in
 
     [
       bcd_value <-- bcd_shifted;
-      int_value <-- int_shifted;
+      convert_buffer <-- int_shifted;
       bits_processed <-- bits_processed.value +:. 1
     ]
   in
@@ -114,7 +116,8 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
     in
 
     [
-      bcd_value <-- concat_msb (List.rev (incremented_digits 0 vdd)) (* start incrementing; implicit carry -> increment *)
+      bcd_value <-- concat_msb (List.rev (incremented_digits 0 vdd)); (* start incrementing; implicit carry -> increment *)
+      int_value <-- int_value.value +:. 1;
     ]
   in
 
@@ -128,6 +131,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
           if_ convert [
             bcd_value <-- zero 40;
             bits_processed <-- zero 6;
+            convert_buffer <-- start_value;
             int_value <-- start_value;
             ready <-- gnd;
             sm.set_next Converting;
@@ -163,7 +167,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
       ]
     ];
 
-  { ready = ready.value; output = bcd_value.value; num_digits = num_digits.value; is_invalid = is_invalid.value }
+  { ready = ready.value; bcd_value = bcd_value.value; int_value = int_value.value; num_digits = num_digits.value; is_invalid = is_invalid.value }
 ;;
 
 let hierarchical scope = 
