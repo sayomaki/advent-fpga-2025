@@ -8,7 +8,7 @@ module I = struct
   type 'a t =
     { clock : 'a
     ; reset : 'a
-    ; data : 'a With_valid.t [@bits 32]
+    ; data : 'a With_valid.t [@bits 64]
     ; puzzle : 'a [@bits 5] (* 4 bit for day, 1 bit for part 1/2 *)
     }
   [@@deriving hardcaml]
@@ -16,7 +16,7 @@ end
 
 module O = struct
   type 'a t = 
-    { result : 'a With_valid.t [@bits 32] 
+    { result : 'a With_valid.t [@bits 64] 
     ; data_ready : 'a 
     }
   [@@deriving hardcaml]
@@ -27,7 +27,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
   let open Always in
   let spec = Reg_spec.create ~clock ~clear:reset () in
 
-  let result = Variable.reg spec ~width:32 in
+  let result = Variable.reg spec ~width:64 in
   let result_valid = Variable.reg spec ~width:1 in
   let data_ready = Variable.reg spec ~width:1 in
 
@@ -37,11 +37,11 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
     let increment = Variable.reg spec ~width:1 in 
     let bcd_reset = ~:enable in
 
-    let start_value = Variable.reg spec ~width:32 in
-    let end_value = Variable.reg spec ~width:32 in
-    let%hw_var range = Variable.reg spec ~width:32 in
-    let%hw_var range_counter = Variable.reg spec ~width:32 in
-    let%hw_var invalid_counter = Variable.reg spec ~width:32 in
+    let start_value = Variable.reg spec ~width:34 in
+    let end_value = Variable.reg spec ~width:34 in
+    let%hw_var range = Variable.reg spec ~width:34 in
+    let%hw_var range_counter = Variable.reg spec ~width:34 in
+    let%hw_var invalid_counter = Variable.reg spec ~width:34 in
 
     let bcd = Bcd.hierarchical scope in
     let number = bcd { Bcd.I.clock = clock; reset = bcd_reset; convert = convert.value; start_value = start_value.value; increment = increment.value } in
@@ -52,12 +52,14 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         data_ready <-- vdd;
 
         when_ (data.valid) [
+          start_value <-- sel_bottom data.value ~width:34;
           data_ready <-- gnd;
         ];
       ] (elif (end_value.value ==:. 0) [
         data_ready <-- vdd;
 
         when_ (data.valid) [
+          end_value <-- sel_bottom data.value ~width:34;
           data_ready <-- gnd;
         ];
       ] [
@@ -73,12 +75,12 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         when_ (convert_started.value ==: vdd) [
           if_ (range_counter.value <=: range.value) [
             when_ ((number.ready ==: vdd) &: (increment.value ==: gnd)) [
-              invalid_counter <-- invalid_counter.value +: (uresize number.is_invalid ~width:32);
+              invalid_counter <-- invalid_counter.value +: (uresize number.is_invalid ~width:34);
               increment <-- vdd;
               range_counter <-- range_counter.value +:. 1;
             ];
           ] [
-            result <-- invalid_counter.value;
+            result <-- uresize invalid_counter.value ~width:64;
             result_valid <-- vdd;
             
             when_ result_valid.value [
