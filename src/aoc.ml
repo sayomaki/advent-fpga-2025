@@ -29,7 +29,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
 
   let result = Variable.reg spec ~width:32 in
   let result_valid = Variable.reg spec ~width:1 in
-  let data_ready = Variable.wire ~default:gnd () in
+  let data_ready = Variable.reg spec ~width:1 in
 
   let day2 enable =
     let convert = Variable.reg spec ~width:1 in
@@ -52,13 +52,13 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         data_ready <-- vdd;
 
         when_ (data.valid) [
-          start_value <-- data.value;
+          data_ready <-- gnd;
         ];
       ] (elif (end_value.value ==:. 0) [
         data_ready <-- vdd;
 
         when_ (data.valid) [
-          end_value <-- data.value;
+          data_ready <-- gnd;
         ];
       ] [
         range <-- (end_value.value -: start_value.value) +:. 1;
@@ -80,6 +80,14 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
           ] [
             result <-- invalid_counter.value;
             result_valid <-- vdd;
+            
+            when_ result_valid.value [
+              result_valid <-- gnd;
+              range_counter <--. 0;
+              start_value <--. 0;
+              end_value <--. 0;
+              convert_started <-- gnd;
+            ];
           ];
         ];
       ]);
