@@ -12,8 +12,6 @@ let simple_testbench (sim : Harness.Sim.t) =
   let outputs = Cyclesim.outputs sim in
   let cycle ?n () = Cyclesim.cycle ?n sim in
 
-  inputs.start_value := Bits.of_int_trunc ~width:32 0;
-
   (* Reset the design *)
   inputs.reset := Bits.vdd;
   cycle ();
@@ -24,7 +22,10 @@ let simple_testbench (sim : Harness.Sim.t) =
 
   let print_value () = 
     let is_invalid = Bits.to_bool !(outputs.is_invalid) in
-    printf "Value: %x (%s)\n" (Bits.to_unsigned_int !(outputs.output)) (if is_invalid then "Invalid" else "Valid");
+    printf "Value: %x [%d] (%s)\n" 
+      (Bits.to_unsigned_int !(outputs.bcd_value))
+      (Bits.to_unsigned_int !(outputs.int_value))
+      (if is_invalid then "Invalid" else "Valid");
   in
 
   (* Pulse the convert signal *)
