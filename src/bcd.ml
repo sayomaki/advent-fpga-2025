@@ -30,6 +30,7 @@ module States = struct
     | Idle
     | Converting
     | Incrementing
+    | Checking
     | Done
   [@@deriving sexp_of, compare ~localize, enumerate]
 end
@@ -47,9 +48,10 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let%hw_var bits_processed = Variable.reg spec ~width:6 in (* keep track processed bits *)
   let%hw_var bcd_value = Variable.reg spec ~width:40 in
 
-  let ready = Variable.reg spec ~width:1 in
+  let ready = Variable.wire ~default:gnd () in
   let num_digits = Variable.reg spec ~width:4 in
   let is_invalid = Variable.reg spec ~width:1 in
+  let checking_digits = Variable.reg spec ~width:1 in
   
   let double_dabble_adder value = mux2 (value >=:. 5) (value +:. 3) value in
 
@@ -122,6 +124,8 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
       [ 
         (Idle, 
         [
+          ready <-- vdd;
+
           when_ convert [
             bcd_value <-- zero 40;
             bits_processed <-- zero 6;
@@ -134,23 +138,32 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         (Converting,
         (process_bit ()) @ [
           when_ (bits_processed.value ==:. 31) [
-            sm.set_next Done;
+            sm.set_next Checking;
           ];
         ]
         );
         (Incrementing,
         (increment_bcd_value ()) @ [
-          sm.set_next Done;
+          sm.set_next Checking;
+        ]
+        );
+        (Checking,
+        [
+          if_ ~:(checking_digits.value) [
+            num_digits <-- most_sig_digit (List.rev (bcd_value_to_digits bcd_value.value));
+            checking_digits <-- vdd;
+          ] [
+            is_invalid <-- check_is_invalid bcd_value.value num_digits.value;
+            checking_digits <-- gnd;
+            sm.set_next Done;
+          ];
         ]
         );
         (Done,
         [
           ready <-- vdd;
-          num_digits <-- most_sig_digit (List.rev (bcd_value_to_digits bcd_value.value));
-          is_invalid <-- check_is_invalid bcd_value.value num_digits.value;
-          
+
           when_ increment [
-            ready <-- gnd;
             sm.set_next Incrementing;
           ];
         ]
