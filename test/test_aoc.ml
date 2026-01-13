@@ -34,9 +34,20 @@ let simple_testbench (sim : Harness.Sim.t) =
     cycle()
   in
 
-  feed_data 11;
-  feed_data 22;
+  let compute x y =
+    feed_data x;
+    feed_data y;
 
+    while not (Bits.to_bool !(outputs.result.valid)) do
+      cycle ()
+    done;
+
+    let answer = Bits.to_unsigned_int !(outputs.result.value) in
+    print_s [%message "Result" (answer : int)];
+  in
+
+  compute 11 22;
+  
   (* Wait for result to become valid *)
   while not (Bits.to_bool !(outputs.result.valid)) do
     cycle ()
