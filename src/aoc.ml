@@ -33,7 +33,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
   let data_ready = Variable.reg spec ~width:1 in
   let debug = Variable.reg spec ~width:2 in
 
-  let day2 enable =
+  let day2_module ~enable =
     let convert = Variable.reg spec ~width:1 in
     let convert_started = Variable.reg spec ~width:1 in
     let increment = Variable.reg spec ~width:1 in 
@@ -47,8 +47,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
     let bcd = Bcd.hierarchical scope in
     let number = bcd { Bcd.I.clock = clock; reset = reset; convert = convert.value; start_value = start_value.value; increment = increment.value } in
 
-    (* todo *)
-    [
+    when_ enable [
       if_ (start_value.value ==:. 0) [
         debug <--. 0;
         data_ready <-- vdd;
@@ -66,6 +65,9 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
           data_ready <-- gnd;
         ];
       ] [
+        data_ready <-- gnd;
+        result_valid <-- gnd;
+
         range <-- (end_value.value -: start_value.value) +:. 1;
         convert <-- gnd;
         increment <-- gnd;
@@ -92,7 +94,6 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
             result_valid <-- vdd;
             
             when_ result_valid.value [
-              result_valid <-- gnd;
               range_counter <--. 0;
               start_value <--. 0;
               end_value <--. 0;
@@ -102,12 +103,13 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         ];
       ]);
     ]
-  in
+ in
 
-  compile 
-    [
-      when_ (puzzle ==:. 0b100) (day2 vdd) (* day 2 part 1 *)
-    ]; 
+  let day2_logic = day2_module ~enable:(puzzle ==:. 0b100) in
+
+  compile [
+    day2_logic (* day 2 part 1 *)
+  ];
 
   { result = { value = result.value; valid = result_valid.value }; data_ready = data_ready.value; debug = debug.value }
 ;;
