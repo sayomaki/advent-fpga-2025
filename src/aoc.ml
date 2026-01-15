@@ -35,7 +35,6 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
     let convert = Variable.reg spec ~width:1 in
     let convert_started = Variable.reg spec ~width:1 in
     let increment = Variable.reg spec ~width:1 in 
-    let bcd_reset = ~:enable in
 
     let start_value = Variable.reg spec ~width:34 in
     let end_value = Variable.reg spec ~width:34 in
@@ -44,7 +43,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
     let%hw_var invalid_sum = Variable.reg spec ~width:64 in
 
     let bcd = Bcd.hierarchical scope in
-    let number = bcd { Bcd.I.clock = clock; reset = bcd_reset; convert = convert.value; start_value = start_value.value; increment = increment.value } in
+    let number = bcd { Bcd.I.clock = clock; reset = reset; convert = convert.value; start_value = start_value.value; increment = increment.value } in
 
     (* todo *)
     [
