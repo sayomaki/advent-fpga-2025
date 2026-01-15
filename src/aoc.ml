@@ -18,6 +18,7 @@ module O = struct
   type 'a t = 
     { result : 'a With_valid.t [@bits 64] 
     ; data_ready : 'a 
+    ; debug : 'a [@bits 2]
     }
   [@@deriving hardcaml]
 end
@@ -30,6 +31,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
   let result = Variable.reg spec ~width:64 in
   let result_valid = Variable.reg spec ~width:1 in
   let data_ready = Variable.reg spec ~width:1 in
+  let debug = Variable.reg spec ~width:2 in
 
   let day2 enable =
     let convert = Variable.reg spec ~width:1 in
@@ -48,6 +50,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
     (* todo *)
     [
       if_ (start_value.value ==:. 0) [
+        debug <--. 0;
         data_ready <-- vdd;
 
         when_ (data.valid) [
@@ -55,6 +58,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
           data_ready <-- gnd;
         ];
       ] (elif (end_value.value ==:. 0) [
+        debug <--. 1;
         data_ready <-- vdd;
 
         when_ (data.valid) [
@@ -73,7 +77,9 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
 
         when_ (convert_started.value ==: vdd) [
           if_ (range_counter.value <=: range.value) [
+            debug <--. 2;
             when_ ((number.ready ==: vdd) &: (increment.value ==: gnd)) [
+              debug <--. 3;
               when_ (number.is_invalid) [
                 invalid_sum <-- invalid_sum.value +: (uresize number.int_value ~width:64)
               ];
@@ -103,7 +109,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
       when_ (puzzle ==:. 0b100) (day2 vdd) (* day 2 part 1 *)
     ]; 
 
-  { result = { value = result.value; valid = result_valid.value }; data_ready = data_ready.value }
+  { result = { value = result.value; valid = result_valid.value }; data_ready = data_ready.value; debug = debug.value }
 ;;
 
 let hierarchical scope = 

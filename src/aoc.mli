@@ -17,6 +17,7 @@ module O : sig
   type 'a t = 
     { result : 'a With_valid.t
     ; data_ready : 'a
+    ; debug : 'a
     } 
   [@@deriving hardcaml]
 end
