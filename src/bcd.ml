@@ -40,8 +40,6 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let open Always in
   let spec = Reg_spec.create ~clock ~clear:reset () in
   let sm = State_machine.create (module States) spec in
-
-  let _increment = increment in
   let _scope = scope in
 
   let int_value = Variable.reg spec ~width:34 in
