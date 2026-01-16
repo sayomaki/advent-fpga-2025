@@ -115,7 +115,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
 
   let increment_bcd_value () = 
     let rec incremented_digits i carry =
-      if i >= 10 then
+      if i >= bcd_digits then
         []
       else
         let current_digit = select bcd_value.value ~high:((i+1)*4 - 1) ~low:(i*4) in
