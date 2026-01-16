@@ -11,14 +11,14 @@ module bcd (
     is_invalid
 );
 
-    input [32:0] start_value;
+    input [33:0] start_value;
     input reset;
     input clock;
     input increment;
     input convert;
     output ready;
-    output [39:0] bcd_value;
-    output [32:0] int_value;
+    output [43:0] bcd_value;
+    output [33:0] int_value;
     output [4:0] num_digits;
     output is_invalid;
 
@@ -48,65 +48,84 @@ module bcd (
     wire _1;
     reg _57;
     wire [4:0] _30;
+    wire [4:0] _104;
+    wire [3:0] _102;
+    wire [3:0] _101;
+    wire _103;
+    wire [4:0] _106;
     wire [4:0] _100;
-    wire [3:0] _98;
     wire [3:0] _97;
     wire _99;
-    wire [4:0] _102;
+    wire [4:0] _107;
     wire [4:0] _96;
     wire [3:0] _93;
     wire _95;
-    wire [4:0] _103;
+    wire [4:0] _108;
     wire [4:0] _92;
     wire [3:0] _89;
     wire _91;
-    wire [4:0] _104;
+    wire [4:0] _109;
     wire [4:0] _88;
     wire [3:0] _85;
     wire _87;
-    wire [4:0] _105;
+    wire [4:0] _110;
     wire [4:0] _84;
     wire [3:0] _81;
     wire _83;
-    wire [4:0] _106;
+    wire [4:0] _111;
     wire [4:0] _80;
     wire [3:0] _77;
     wire _79;
-    wire [4:0] _107;
+    wire [4:0] _112;
     wire [4:0] _76;
     wire [3:0] _73;
     wire _75;
-    wire [4:0] _108;
+    wire [4:0] _113;
     wire [4:0] _72;
     wire [3:0] _69;
     wire _71;
-    wire [4:0] _109;
+    wire [4:0] _114;
     wire [4:0] _68;
     wire [3:0] _65;
     wire _67;
-    wire [4:0] _110;
+    wire [4:0] _115;
     wire [4:0] _64;
     wire [3:0] _61;
     wire _63;
-    wire [4:0] _111;
-    wire [4:0] _112;
-    reg [4:0] _113;
+    wire [4:0] _116;
+    wire [4:0] _117;
+    reg [4:0] _118;
     wire [4:0] _3;
     reg [4:0] _31;
-    wire [32:0] _114;
-    wire [32:0] _118;
-    wire [32:0] _119;
-    wire [32:0] _116;
-    reg [32:0] _121;
-    wire [32:0] _5;
-    reg [32:0] _115;
-    wire [39:0] _37;
-    wire [3:0] _317;
+    wire [33:0] _119;
+    wire [33:0] _123;
+    wire [33:0] _124;
+    wire [33:0] _121;
+    reg [33:0] _126;
+    wire [33:0] _5;
+    reg [33:0] _120;
+    wire [43:0] _37;
+    wire [3:0] _341;
+    wire [3:0] _342;
+    wire [3:0] _338;
+    wire _339;
+    wire _340;
+    wire [3:0] _344;
+    wire [3:0] _334;
+    wire _331;
+    wire _332;
+    wire [3:0] _336;
+    wire [3:0] _337;
+    wire [3:0] _326;
+    wire _323;
+    wire _324;
+    wire [3:0] _328;
+    wire [3:0] _329;
     wire [3:0] _318;
-    wire [3:0] _314;
     wire _315;
     wire _316;
     wire [3:0] _320;
+    wire [3:0] _321;
     wire [3:0] _310;
     wire _307;
     wire _308;
@@ -141,17 +160,15 @@ module bcd (
     wire _259;
     wire _260;
     wire [3:0] _264;
-    wire [3:0] _265;
-    wire [3:0] _254;
-    wire _251;
-    wire _252;
-    wire [3:0] _256;
     wire [3:0] _257;
-    wire [3:0] _246;
-    wire _243;
-    wire _244;
-    wire [3:0] _248;
+    wire [3:0] _253;
+    wire _255;
+    wire [3:0] _249;
+    wire _251;
+    wire [3:0] _245;
+    wire _247;
     wire [3:0] _241;
+    wire _243;
     wire [3:0] _237;
     wire _239;
     wire [3:0] _233;
@@ -162,125 +179,125 @@ module bcd (
     wire _227;
     wire [3:0] _221;
     wire _223;
-    wire [3:0] _217;
-    wire _219;
-    wire [3:0] _213;
-    wire _215;
-    wire [3:0] _209;
-    wire _211;
-    wire [3:0] _206;
-    wire _208;
-    wire _212;
-    wire _216;
+    wire [3:0] _218;
     wire _220;
     wire _224;
     wire _228;
     wire _232;
     wire _236;
     wire _240;
-    wire [3:0] _249;
-    wire [39:0] _321;
-    wire [31:0] _125;
-    wire [32:0] _127;
-    wire [32:0] _8;
-    wire [32:0] _124;
-    reg [32:0] _129;
-    wire [32:0] _9;
-    reg [32:0] convert_buffer;
-    wire _204;
-    wire [3:0] _199;
+    wire _244;
+    wire _248;
+    wire _252;
+    wire _256;
+    wire [3:0] _265;
+    wire [43:0] _345;
+    wire [32:0] _130;
+    wire [33:0] _132;
+    wire [33:0] _8;
+    wire [33:0] _129;
+    reg [33:0] _134;
+    wire [33:0] _9;
+    reg [33:0] convert_buffer;
+    wire _216;
+    wire [3:0] _211;
+    wire [3:0] _212;
+    wire [3:0] _208;
+    wire [3:0] _207;
+    wire _209;
+    wire _210;
+    wire [3:0] _213;
+    wire [3:0] _205;
     wire [3:0] _200;
-    wire [3:0] _196;
-    wire [3:0] _195;
-    wire _197;
-    wire _198;
-    wire [3:0] _201;
+    wire _202;
+    wire _203;
+    wire [3:0] _206;
+    wire [3:0] _198;
     wire [3:0] _193;
-    wire [3:0] _188;
-    wire _190;
-    wire _191;
-    wire [3:0] _194;
+    wire _195;
+    wire _196;
+    wire [3:0] _199;
+    wire [3:0] _191;
     wire [3:0] _186;
-    wire [3:0] _181;
-    wire _183;
-    wire _184;
-    wire [3:0] _187;
+    wire _188;
+    wire _189;
+    wire [3:0] _192;
+    wire [3:0] _184;
     wire [3:0] _179;
-    wire [3:0] _174;
-    wire _176;
-    wire _177;
-    wire [3:0] _180;
+    wire _181;
+    wire _182;
+    wire [3:0] _185;
+    wire [3:0] _177;
     wire [3:0] _172;
-    wire [3:0] _167;
-    wire _169;
-    wire _170;
-    wire [3:0] _173;
+    wire _174;
+    wire _175;
+    wire [3:0] _178;
+    wire [3:0] _170;
     wire [3:0] _165;
-    wire [3:0] _160;
-    wire _162;
-    wire _163;
-    wire [3:0] _166;
+    wire _167;
+    wire _168;
+    wire [3:0] _171;
+    wire [3:0] _163;
     wire [3:0] _158;
-    wire [3:0] _153;
-    wire _155;
-    wire _156;
-    wire [3:0] _159;
+    wire _160;
+    wire _161;
+    wire [3:0] _164;
+    wire [3:0] _156;
     wire [3:0] _151;
-    wire [3:0] _146;
-    wire _148;
-    wire _149;
-    wire [3:0] _152;
+    wire _153;
+    wire _154;
+    wire [3:0] _157;
+    wire [3:0] _149;
     wire [3:0] _144;
-    wire [3:0] _139;
-    wire _141;
-    wire _142;
-    wire [3:0] _145;
+    wire _146;
+    wire _147;
+    wire [3:0] _150;
+    wire [3:0] _142;
     wire [3:0] _137;
-    wire [3:0] _132;
-    wire _134;
-    wire _135;
-    wire [3:0] _138;
-    wire [39:0] _202;
-    wire [38:0] _203;
-    wire [39:0] _205;
-    wire [39:0] _131;
-    reg [39:0] _322;
-    wire [39:0] _10;
-    reg [39:0] _38;
-    wire _340;
+    wire _139;
+    wire _140;
+    wire [3:0] _143;
+    wire [43:0] _214;
+    wire [42:0] _215;
+    wire [43:0] _217;
+    wire [43:0] _136;
+    reg [43:0] _346;
+    wire [43:0] _10;
+    reg [43:0] _38;
+    wire _364;
     wire [1:0] _25;
     wire vdd;
     wire gnd;
-    wire _324;
-    reg _325;
+    wire _348;
+    reg _349;
     wire _12;
     reg _28;
     wire _29;
-    wire [1:0] _338;
+    wire [1:0] _362;
     wire [1:0] _59;
-    wire [5:0] _335;
-    wire [5:0] _326;
+    wire [5:0] _359;
+    wire [5:0] _350;
     wire _14;
     wire _16;
-    wire [5:0] _330;
-    wire [5:0] _331;
-    wire [5:0] _329;
-    reg [5:0] _332;
+    wire [5:0] _354;
+    wire [5:0] _355;
+    wire [5:0] _353;
+    reg [5:0] _356;
     wire [5:0] _17;
     reg [5:0] bits_processed;
-    wire _336;
-    wire [1:0] _337;
-    wire [1:0] _128;
-    wire [1:0] _120;
+    wire _360;
+    wire [1:0] _361;
+    wire [1:0] _133;
+    wire [1:0] _125;
     wire _19;
-    wire [1:0] _333;
+    wire [1:0] _357;
     wire _21;
-    wire [1:0] _334;
-    reg [1:0] _339;
+    wire [1:0] _358;
+    reg [1:0] _363;
     wire [1:0] _22;
     (* fsm_encoding="one_hot" *)
     reg [1:0] _26;
-    reg _341;
+    reg _365;
     wire _23;
     assign _56 = 1'b0;
     assign _52 = _38[39:20];
@@ -336,295 +353,314 @@ module bcd (
             _57 <= _1;
     end
     assign _30 = 5'b00000;
-    assign _100 = 5'b00001;
-    assign _98 = 4'b0000;
-    assign _97 = _38[3:0];
-    assign _99 = _97 == _98;
-    assign _102 = _99 ? _30 : _100;
-    assign _96 = 5'b00010;
-    assign _93 = _38[7:4];
-    assign _95 = _93 == _98;
-    assign _103 = _95 ? _102 : _96;
-    assign _92 = 5'b00011;
-    assign _89 = _38[11:8];
-    assign _91 = _89 == _98;
-    assign _104 = _91 ? _103 : _92;
-    assign _88 = 5'b00100;
-    assign _85 = _38[15:12];
-    assign _87 = _85 == _98;
-    assign _105 = _87 ? _104 : _88;
-    assign _84 = 5'b00101;
-    assign _81 = _38[19:16];
-    assign _83 = _81 == _98;
-    assign _106 = _83 ? _105 : _84;
-    assign _80 = 5'b00110;
-    assign _77 = _38[23:20];
-    assign _79 = _77 == _98;
-    assign _107 = _79 ? _106 : _80;
-    assign _76 = 5'b00111;
-    assign _73 = _38[27:24];
-    assign _75 = _73 == _98;
-    assign _108 = _75 ? _107 : _76;
-    assign _72 = 5'b01000;
-    assign _69 = _38[31:28];
-    assign _71 = _69 == _98;
-    assign _109 = _71 ? _108 : _72;
-    assign _68 = 5'b01001;
-    assign _65 = _38[35:32];
-    assign _67 = _65 == _98;
-    assign _110 = _67 ? _109 : _68;
-    assign _64 = 5'b01010;
-    assign _61 = _38[39:36];
-    assign _63 = _61 == _98;
-    assign _111 = _63 ? _110 : _64;
-    assign _112 = _29 ? _111 : _31;
+    assign _104 = 5'b00001;
+    assign _102 = 4'b0000;
+    assign _101 = _38[3:0];
+    assign _103 = _101 == _102;
+    assign _106 = _103 ? _30 : _104;
+    assign _100 = 5'b00010;
+    assign _97 = _38[7:4];
+    assign _99 = _97 == _102;
+    assign _107 = _99 ? _106 : _100;
+    assign _96 = 5'b00011;
+    assign _93 = _38[11:8];
+    assign _95 = _93 == _102;
+    assign _108 = _95 ? _107 : _96;
+    assign _92 = 5'b00100;
+    assign _89 = _38[15:12];
+    assign _91 = _89 == _102;
+    assign _109 = _91 ? _108 : _92;
+    assign _88 = 5'b00101;
+    assign _85 = _38[19:16];
+    assign _87 = _85 == _102;
+    assign _110 = _87 ? _109 : _88;
+    assign _84 = 5'b00110;
+    assign _81 = _38[23:20];
+    assign _83 = _81 == _102;
+    assign _111 = _83 ? _110 : _84;
+    assign _80 = 5'b00111;
+    assign _77 = _38[27:24];
+    assign _79 = _77 == _102;
+    assign _112 = _79 ? _111 : _80;
+    assign _76 = 5'b01000;
+    assign _73 = _38[31:28];
+    assign _75 = _73 == _102;
+    assign _113 = _75 ? _112 : _76;
+    assign _72 = 5'b01001;
+    assign _69 = _38[35:32];
+    assign _71 = _69 == _102;
+    assign _114 = _71 ? _113 : _72;
+    assign _68 = 5'b01010;
+    assign _65 = _38[39:36];
+    assign _67 = _65 == _102;
+    assign _115 = _67 ? _114 : _68;
+    assign _64 = 5'b01011;
+    assign _61 = _38[43:40];
+    assign _63 = _61 == _102;
+    assign _116 = _63 ? _115 : _64;
+    assign _117 = _29 ? _116 : _31;
     always @* begin
         case (_26)
         2'b11:
-            _113 <= _112;
+            _118 <= _117;
         default:
-            _113 <= _31;
+            _118 <= _31;
         endcase
     end
-    assign _3 = _113;
+    assign _3 = _118;
     always @(posedge _16) begin
         if (_14)
             _31 <= _30;
         else
             _31 <= _3;
     end
-    assign _114 = 33'b000000000000000000000000000000000;
-    assign _118 = 33'b000000000000000000000000000000001;
-    assign _119 = _115 + _118;
-    assign _116 = _21 ? _8 : _115;
+    assign _119 = 34'b0000000000000000000000000000000000;
+    assign _123 = 34'b0000000000000000000000000000000001;
+    assign _124 = _120 + _123;
+    assign _121 = _21 ? _8 : _120;
     always @* begin
         case (_26)
         2'b00:
-            _121 <= _116;
+            _126 <= _121;
         2'b10:
-            _121 <= _119;
+            _126 <= _124;
         default:
-            _121 <= _115;
+            _126 <= _120;
         endcase
     end
-    assign _5 = _121;
+    assign _5 = _126;
     always @(posedge _16) begin
         if (_14)
-            _115 <= _114;
+            _120 <= _119;
         else
-            _115 <= _5;
+            _120 <= _5;
     end
-    assign _37 = 40'b0000000000000000000000000000000000000000;
-    assign _317 = 4'b0001;
-    assign _318 = _206 + _317;
-    assign _314 = 4'b1001;
-    assign _315 = _206 < _314;
+    assign _37 = 44'b00000000000000000000000000000000000000000000;
+    assign _341 = 4'b0001;
+    assign _342 = _218 + _341;
+    assign _338 = 4'b1001;
+    assign _339 = _218 < _338;
+    assign _340 = ~ _339;
+    assign _344 = _340 ? _102 : _342;
+    assign _334 = _221 + _341;
+    assign _331 = _221 < _338;
+    assign _332 = ~ _331;
+    assign _336 = _332 ? _102 : _334;
+    assign _337 = _220 ? _336 : _221;
+    assign _326 = _225 + _341;
+    assign _323 = _225 < _338;
+    assign _324 = ~ _323;
+    assign _328 = _324 ? _102 : _326;
+    assign _329 = _224 ? _328 : _225;
+    assign _318 = _229 + _341;
+    assign _315 = _229 < _338;
     assign _316 = ~ _315;
-    assign _320 = _316 ? _98 : _318;
-    assign _310 = _209 + _317;
-    assign _307 = _209 < _314;
+    assign _320 = _316 ? _102 : _318;
+    assign _321 = _228 ? _320 : _229;
+    assign _310 = _233 + _341;
+    assign _307 = _233 < _338;
     assign _308 = ~ _307;
-    assign _312 = _308 ? _98 : _310;
-    assign _313 = _208 ? _312 : _209;
-    assign _302 = _213 + _317;
-    assign _299 = _213 < _314;
+    assign _312 = _308 ? _102 : _310;
+    assign _313 = _232 ? _312 : _233;
+    assign _302 = _237 + _341;
+    assign _299 = _237 < _338;
     assign _300 = ~ _299;
-    assign _304 = _300 ? _98 : _302;
-    assign _305 = _212 ? _304 : _213;
-    assign _294 = _217 + _317;
-    assign _291 = _217 < _314;
+    assign _304 = _300 ? _102 : _302;
+    assign _305 = _236 ? _304 : _237;
+    assign _294 = _241 + _341;
+    assign _291 = _241 < _338;
     assign _292 = ~ _291;
-    assign _296 = _292 ? _98 : _294;
-    assign _297 = _216 ? _296 : _217;
-    assign _286 = _221 + _317;
-    assign _283 = _221 < _314;
+    assign _296 = _292 ? _102 : _294;
+    assign _297 = _240 ? _296 : _241;
+    assign _286 = _245 + _341;
+    assign _283 = _245 < _338;
     assign _284 = ~ _283;
-    assign _288 = _284 ? _98 : _286;
-    assign _289 = _220 ? _288 : _221;
-    assign _278 = _225 + _317;
-    assign _275 = _225 < _314;
+    assign _288 = _284 ? _102 : _286;
+    assign _289 = _244 ? _288 : _245;
+    assign _278 = _249 + _341;
+    assign _275 = _249 < _338;
     assign _276 = ~ _275;
-    assign _280 = _276 ? _98 : _278;
-    assign _281 = _224 ? _280 : _225;
-    assign _270 = _229 + _317;
-    assign _267 = _229 < _314;
+    assign _280 = _276 ? _102 : _278;
+    assign _281 = _248 ? _280 : _249;
+    assign _270 = _253 + _341;
+    assign _267 = _253 < _338;
     assign _268 = ~ _267;
-    assign _272 = _268 ? _98 : _270;
-    assign _273 = _228 ? _272 : _229;
-    assign _262 = _233 + _317;
-    assign _259 = _233 < _314;
+    assign _272 = _268 ? _102 : _270;
+    assign _273 = _252 ? _272 : _253;
+    assign _262 = _257 + _341;
+    assign _259 = _257 < _338;
     assign _260 = ~ _259;
-    assign _264 = _260 ? _98 : _262;
-    assign _265 = _232 ? _264 : _233;
-    assign _254 = _237 + _317;
-    assign _251 = _237 < _314;
-    assign _252 = ~ _251;
-    assign _256 = _252 ? _98 : _254;
-    assign _257 = _236 ? _256 : _237;
-    assign _246 = _241 + _317;
-    assign _243 = _241 < _314;
-    assign _244 = ~ _243;
-    assign _248 = _244 ? _98 : _246;
-    assign _241 = _38[39:36];
-    assign _237 = _38[35:32];
-    assign _239 = _237 == _314;
-    assign _233 = _38[31:28];
-    assign _235 = _233 == _314;
-    assign _229 = _38[27:24];
-    assign _231 = _229 == _314;
-    assign _225 = _38[23:20];
-    assign _227 = _225 == _314;
-    assign _221 = _38[19:16];
-    assign _223 = _221 == _314;
-    assign _217 = _38[15:12];
-    assign _219 = _217 == _314;
-    assign _213 = _38[11:8];
-    assign _215 = _213 == _314;
-    assign _209 = _38[7:4];
-    assign _211 = _209 == _314;
-    assign _206 = _38[3:0];
-    assign _208 = _206 == _314;
-    assign _212 = _208 ? _211 : gnd;
-    assign _216 = _212 ? _215 : gnd;
-    assign _220 = _216 ? _219 : gnd;
+    assign _264 = _260 ? _102 : _262;
+    assign _257 = _38[43:40];
+    assign _253 = _38[39:36];
+    assign _255 = _253 == _338;
+    assign _249 = _38[35:32];
+    assign _251 = _249 == _338;
+    assign _245 = _38[31:28];
+    assign _247 = _245 == _338;
+    assign _241 = _38[27:24];
+    assign _243 = _241 == _338;
+    assign _237 = _38[23:20];
+    assign _239 = _237 == _338;
+    assign _233 = _38[19:16];
+    assign _235 = _233 == _338;
+    assign _229 = _38[15:12];
+    assign _231 = _229 == _338;
+    assign _225 = _38[11:8];
+    assign _227 = _225 == _338;
+    assign _221 = _38[7:4];
+    assign _223 = _221 == _338;
+    assign _218 = _38[3:0];
+    assign _220 = _218 == _338;
     assign _224 = _220 ? _223 : gnd;
     assign _228 = _224 ? _227 : gnd;
     assign _232 = _228 ? _231 : gnd;
     assign _236 = _232 ? _235 : gnd;
     assign _240 = _236 ? _239 : gnd;
-    assign _249 = _240 ? _248 : _241;
-    assign _321 = { _249,
-                    _257,
-                    _265,
+    assign _244 = _240 ? _243 : gnd;
+    assign _248 = _244 ? _247 : gnd;
+    assign _252 = _248 ? _251 : gnd;
+    assign _256 = _252 ? _255 : gnd;
+    assign _265 = _256 ? _264 : _257;
+    assign _345 = { _265,
                     _273,
                     _281,
                     _289,
                     _297,
                     _305,
                     _313,
-                    _320 };
-    assign _125 = convert_buffer[31:0];
-    assign _127 = { _125,
+                    _321,
+                    _329,
+                    _337,
+                    _344 };
+    assign _130 = convert_buffer[32:0];
+    assign _132 = { _130,
                     _56 };
     assign _8 = start_value;
-    assign _124 = _21 ? _8 : convert_buffer;
+    assign _129 = _21 ? _8 : convert_buffer;
     always @* begin
         case (_26)
         2'b00:
-            _129 <= _124;
+            _134 <= _129;
         2'b01:
-            _129 <= _127;
+            _134 <= _132;
         default:
-            _129 <= convert_buffer;
+            _134 <= convert_buffer;
         endcase
     end
-    assign _9 = _129;
+    assign _9 = _134;
     always @(posedge _16) begin
         if (_14)
-            convert_buffer <= _114;
+            convert_buffer <= _119;
         else
             convert_buffer <= _9;
     end
-    assign _204 = convert_buffer[32:32];
-    assign _199 = 4'b0011;
-    assign _200 = _195 + _199;
-    assign _196 = 4'b0101;
-    assign _195 = _38[3:0];
-    assign _197 = _195 < _196;
-    assign _198 = ~ _197;
-    assign _201 = _198 ? _200 : _195;
-    assign _193 = _188 + _199;
-    assign _188 = _38[7:4];
-    assign _190 = _188 < _196;
-    assign _191 = ~ _190;
-    assign _194 = _191 ? _193 : _188;
-    assign _186 = _181 + _199;
-    assign _181 = _38[11:8];
-    assign _183 = _181 < _196;
-    assign _184 = ~ _183;
-    assign _187 = _184 ? _186 : _181;
-    assign _179 = _174 + _199;
-    assign _174 = _38[15:12];
-    assign _176 = _174 < _196;
-    assign _177 = ~ _176;
-    assign _180 = _177 ? _179 : _174;
-    assign _172 = _167 + _199;
-    assign _167 = _38[19:16];
-    assign _169 = _167 < _196;
-    assign _170 = ~ _169;
-    assign _173 = _170 ? _172 : _167;
-    assign _165 = _160 + _199;
-    assign _160 = _38[23:20];
-    assign _162 = _160 < _196;
-    assign _163 = ~ _162;
-    assign _166 = _163 ? _165 : _160;
-    assign _158 = _153 + _199;
-    assign _153 = _38[27:24];
-    assign _155 = _153 < _196;
-    assign _156 = ~ _155;
-    assign _159 = _156 ? _158 : _153;
-    assign _151 = _146 + _199;
-    assign _146 = _38[31:28];
-    assign _148 = _146 < _196;
-    assign _149 = ~ _148;
-    assign _152 = _149 ? _151 : _146;
-    assign _144 = _139 + _199;
-    assign _139 = _38[35:32];
-    assign _141 = _139 < _196;
-    assign _142 = ~ _141;
-    assign _145 = _142 ? _144 : _139;
-    assign _137 = _132 + _199;
-    assign _132 = _38[39:36];
-    assign _134 = _132 < _196;
-    assign _135 = ~ _134;
-    assign _138 = _135 ? _137 : _132;
-    assign _202 = { _138,
-                    _145,
-                    _152,
-                    _159,
-                    _166,
-                    _173,
-                    _180,
-                    _187,
-                    _194,
-                    _201 };
-    assign _203 = _202[38:0];
-    assign _205 = { _203,
-                    _204 };
-    assign _131 = _21 ? _37 : _38;
+    assign _216 = convert_buffer[33:33];
+    assign _211 = 4'b0011;
+    assign _212 = _207 + _211;
+    assign _208 = 4'b0101;
+    assign _207 = _38[3:0];
+    assign _209 = _207 < _208;
+    assign _210 = ~ _209;
+    assign _213 = _210 ? _212 : _207;
+    assign _205 = _200 + _211;
+    assign _200 = _38[7:4];
+    assign _202 = _200 < _208;
+    assign _203 = ~ _202;
+    assign _206 = _203 ? _205 : _200;
+    assign _198 = _193 + _211;
+    assign _193 = _38[11:8];
+    assign _195 = _193 < _208;
+    assign _196 = ~ _195;
+    assign _199 = _196 ? _198 : _193;
+    assign _191 = _186 + _211;
+    assign _186 = _38[15:12];
+    assign _188 = _186 < _208;
+    assign _189 = ~ _188;
+    assign _192 = _189 ? _191 : _186;
+    assign _184 = _179 + _211;
+    assign _179 = _38[19:16];
+    assign _181 = _179 < _208;
+    assign _182 = ~ _181;
+    assign _185 = _182 ? _184 : _179;
+    assign _177 = _172 + _211;
+    assign _172 = _38[23:20];
+    assign _174 = _172 < _208;
+    assign _175 = ~ _174;
+    assign _178 = _175 ? _177 : _172;
+    assign _170 = _165 + _211;
+    assign _165 = _38[27:24];
+    assign _167 = _165 < _208;
+    assign _168 = ~ _167;
+    assign _171 = _168 ? _170 : _165;
+    assign _163 = _158 + _211;
+    assign _158 = _38[31:28];
+    assign _160 = _158 < _208;
+    assign _161 = ~ _160;
+    assign _164 = _161 ? _163 : _158;
+    assign _156 = _151 + _211;
+    assign _151 = _38[35:32];
+    assign _153 = _151 < _208;
+    assign _154 = ~ _153;
+    assign _157 = _154 ? _156 : _151;
+    assign _149 = _144 + _211;
+    assign _144 = _38[39:36];
+    assign _146 = _144 < _208;
+    assign _147 = ~ _146;
+    assign _150 = _147 ? _149 : _144;
+    assign _142 = _137 + _211;
+    assign _137 = _38[43:40];
+    assign _139 = _137 < _208;
+    assign _140 = ~ _139;
+    assign _143 = _140 ? _142 : _137;
+    assign _214 = { _143,
+                    _150,
+                    _157,
+                    _164,
+                    _171,
+                    _178,
+                    _185,
+                    _192,
+                    _199,
+                    _206,
+                    _213 };
+    assign _215 = _214[42:0];
+    assign _217 = { _215,
+                    _216 };
+    assign _136 = _21 ? _37 : _38;
     always @* begin
         case (_26)
         2'b00:
-            _322 <= _131;
+            _346 <= _136;
         2'b01:
-            _322 <= _205;
+            _346 <= _217;
         2'b10:
-            _322 <= _321;
+            _346 <= _345;
         default:
-            _322 <= _38;
+            _346 <= _38;
         endcase
     end
-    assign _10 = _322;
+    assign _10 = _346;
     always @(posedge _16) begin
         if (_14)
             _38 <= _37;
         else
             _38 <= _10;
     end
-    assign _340 = _21 ? gnd : vdd;
+    assign _364 = _21 ? gnd : vdd;
     assign _25 = 2'b00;
     assign vdd = 1'b1;
     assign gnd = 1'b0;
-    assign _324 = _29 ? vdd : gnd;
+    assign _348 = _29 ? vdd : gnd;
     always @* begin
         case (_26)
         2'b11:
-            _325 <= _324;
+            _349 <= _348;
         default:
-            _325 <= _28;
+            _349 <= _28;
         endcase
     end
-    assign _12 = _325;
+    assign _12 = _349;
     always @(posedge _16) begin
         if (_14)
             _28 <= _56;
@@ -632,55 +668,55 @@ module bcd (
             _28 <= _12;
     end
     assign _29 = ~ _28;
-    assign _338 = _29 ? _26 : _25;
+    assign _362 = _29 ? _26 : _25;
     assign _59 = 2'b11;
-    assign _335 = 6'b100000;
-    assign _326 = 6'b000000;
+    assign _359 = 6'b100001;
+    assign _350 = 6'b000000;
     assign _14 = reset;
     assign _16 = clock;
-    assign _330 = 6'b000001;
-    assign _331 = bits_processed + _330;
-    assign _329 = _21 ? _326 : bits_processed;
+    assign _354 = 6'b000001;
+    assign _355 = bits_processed + _354;
+    assign _353 = _21 ? _350 : bits_processed;
     always @* begin
         case (_26)
         2'b00:
-            _332 <= _329;
+            _356 <= _353;
         2'b01:
-            _332 <= _331;
+            _356 <= _355;
         default:
-            _332 <= bits_processed;
+            _356 <= bits_processed;
         endcase
     end
-    assign _17 = _332;
+    assign _17 = _356;
     always @(posedge _16) begin
         if (_14)
-            bits_processed <= _326;
+            bits_processed <= _350;
         else
             bits_processed <= _17;
     end
-    assign _336 = bits_processed == _335;
-    assign _337 = _336 ? _59 : _26;
-    assign _128 = 2'b01;
-    assign _120 = 2'b10;
+    assign _360 = bits_processed == _359;
+    assign _361 = _360 ? _59 : _26;
+    assign _133 = 2'b01;
+    assign _125 = 2'b10;
     assign _19 = increment;
-    assign _333 = _19 ? _120 : _26;
+    assign _357 = _19 ? _125 : _26;
     assign _21 = convert;
-    assign _334 = _21 ? _128 : _333;
+    assign _358 = _21 ? _133 : _357;
     always @* begin
         case (_26)
         2'b00:
-            _339 <= _334;
+            _363 <= _358;
         2'b01:
-            _339 <= _337;
+            _363 <= _361;
         2'b10:
-            _339 <= _59;
+            _363 <= _59;
         2'b11:
-            _339 <= _338;
+            _363 <= _362;
         default:
-            _339 <= _26;
+            _363 <= _26;
         endcase
     end
-    assign _22 = _339;
+    assign _22 = _363;
     always @(posedge _16) begin
         if (_14)
             _26 <= _25;
@@ -690,15 +726,15 @@ module bcd (
     always @* begin
         case (_26)
         2'b00:
-            _341 <= _340;
+            _365 <= _364;
         default:
-            _341 <= gnd;
+            _365 <= gnd;
         endcase
     end
-    assign _23 = _341;
+    assign _23 = _365;
     assign ready = _23;
     assign bcd_value = _38;
-    assign int_value = _115;
+    assign int_value = _120;
     assign num_digits = _31;
     assign is_invalid = _57;
 
@@ -746,8 +782,8 @@ module aoc (
     wire _3;
     reg _69;
     wire [63:0] _89;
-    wire [32:0] _79;
-    wire [30:0] _78;
+    wire [33:0] _79;
+    wire [29:0] _78;
     wire [63:0] _80;
     wire [63:0] _81;
     wire _77;
@@ -770,28 +806,28 @@ module aoc (
     wire _150;
     wire _151;
     wire _152;
-    wire [32:0] _33;
-    wire [32:0] _146;
-    wire [32:0] _147;
-    wire [32:0] _142;
-    wire [32:0] _143;
-    wire [32:0] _144;
+    wire [33:0] _33;
+    wire [33:0] _146;
+    wire [33:0] _147;
+    wire [33:0] _142;
+    wire [33:0] _143;
+    wire [33:0] _144;
     wire [63:0] _9;
-    wire [32:0] _136;
+    wire [33:0] _136;
     wire _11;
-    wire [32:0] _137;
-    wire [32:0] _133;
-    wire [32:0] _134;
+    wire [33:0] _137;
+    wire [33:0] _133;
+    wire [33:0] _134;
     wire _126;
-    wire [32:0] _97;
-    wire [32:0] _96;
-    wire [32:0] _98;
-    wire [32:0] _99;
-    wire [32:0] _100;
-    wire [32:0] _101;
-    wire [32:0] _12;
-    reg [32:0] range;
-    wire [32:0] _118;
+    wire [33:0] _97;
+    wire [33:0] _96;
+    wire [33:0] _98;
+    wire [33:0] _99;
+    wire [33:0] _100;
+    wire [33:0] _101;
+    wire [33:0] _12;
+    reg [33:0] range;
+    wire [33:0] _118;
     wire _56;
     wire _102;
     wire _103;
@@ -810,19 +846,19 @@ module aoc (
     reg _49;
     wire _16;
     wire _18;
-    wire [79:0] _52;
+    wire [84:0] _52;
     wire _53;
     wire _54;
     wire _57;
-    wire [32:0] _119;
-    wire [32:0] _116;
-    wire [32:0] _120;
-    wire [32:0] _121;
-    wire [32:0] _122;
-    wire [32:0] _123;
-    wire [32:0] _124;
-    wire [32:0] _19;
-    reg [32:0] range_counter;
+    wire [33:0] _119;
+    wire [33:0] _116;
+    wire [33:0] _120;
+    wire [33:0] _121;
+    wire [33:0] _122;
+    wire [33:0] _123;
+    wire [33:0] _124;
+    wire [33:0] _19;
+    reg [33:0] range_counter;
     wire _47;
     wire _127;
     wire vdd;
@@ -835,18 +871,18 @@ module aoc (
     wire _20;
     reg _40;
     wire _42;
-    wire [32:0] _135;
-    wire [32:0] _138;
-    wire [32:0] _139;
-    wire [32:0] _140;
-    wire [32:0] _21;
-    reg [32:0] _36;
+    wire [33:0] _135;
+    wire [33:0] _138;
+    wire [33:0] _139;
+    wire [33:0] _140;
+    wire [33:0] _21;
+    reg [33:0] _36;
     wire _38;
-    wire [32:0] _145;
-    wire [32:0] _148;
-    wire [32:0] _149;
-    wire [32:0] _22;
-    reg [32:0] _32;
+    wire [33:0] _145;
+    wire [33:0] _148;
+    wire [33:0] _149;
+    wire [33:0] _22;
+    reg [33:0] _32;
     wire _34;
     wire _153;
     wire [4:0] _27;
@@ -886,12 +922,12 @@ module aoc (
             _69 <= _3;
     end
     assign _89 = 64'b0000000000000000000000000000000000000000000000000000000000000000;
-    assign _79 = _52[73:41];
-    assign _78 = 31'b0000000000000000000000000000000;
+    assign _79 = _52[78:45];
+    assign _78 = 30'b000000000000000000000000000000;
     assign _80 = { _78,
                    _79 };
     assign _81 = invalid_sum + _80;
-    assign _77 = _52[79:79];
+    assign _77 = _52[84:84];
     assign _82 = _77 ? _81 : invalid_sum;
     assign _83 = _57 ? _82 : invalid_sum;
     assign _84 = _47 ? _83 : invalid_sum;
@@ -921,20 +957,20 @@ module aoc (
     assign _150 = _47 ? gnd : vdd;
     assign _151 = _42 ? _150 : gnd;
     assign _152 = _38 ? _114 : _151;
-    assign _33 = 33'b000000000000000000000000000000000;
-    assign _146 = _9[32:0];
+    assign _33 = 34'b0000000000000000000000000000000000;
+    assign _146 = _9[33:0];
     assign _147 = _11 ? _146 : _32;
     assign _142 = _114 ? _33 : _32;
     assign _143 = _47 ? _32 : _142;
     assign _144 = _42 ? _143 : _32;
     assign _9 = data$value;
-    assign _136 = _9[32:0];
+    assign _136 = _9[33:0];
     assign _11 = data$valid;
     assign _137 = _11 ? _136 : _36;
     assign _133 = _114 ? _33 : _36;
     assign _134 = _47 ? _36 : _133;
     assign _126 = _114 ? gnd : _125;
-    assign _97 = 33'b000000000000000000000000000000001;
+    assign _97 = 34'b0000000000000000000000000000000001;
     assign _96 = _36 - _32;
     assign _98 = _96 + _97;
     assign _99 = _38 ? range : _98;
@@ -984,10 +1020,10 @@ module aoc (
           .start_value(_32),
           .increment(_51),
           .ready(_52[0:0]),
-          .bcd_value(_52[40:1]),
-          .int_value(_52[73:41]),
-          .num_digits(_52[78:74]),
-          .is_invalid(_52[79:79]) );
+          .bcd_value(_52[44:1]),
+          .int_value(_52[78:45]),
+          .num_digits(_52[83:79]),
+          .is_invalid(_52[84:84]) );
     assign _53 = _52[0:0];
     assign _54 = _53 == vdd;
     assign _57 = _54 & _56;
