@@ -87,7 +87,7 @@ module top (
     // UART transmit on result valid
     reg [63:0] tx_buffer = 0;
     reg        tx_valid = 0;
-    reg        result_sent = 0; // track if result is sent
+    reg        aoc_result_valid_last = 0;
 
     assign uart_tx_out = tx_buffer;
     assign uart_tx_controller_send = tx_valid;
@@ -96,17 +96,16 @@ module top (
         if (reset) begin
             tx_buffer <= 0;
             tx_valid  <= 0;
-            result_sent <= 0;
+            aoc_result_valid_last <= 0;
         end else begin
-            if (aoc_result_valid && !result_sent) begin
+            if (aoc_result_valid && !aoc_result_valid_last) begin
                 tx_buffer   <= aoc_result_value;
                 tx_valid    <= 1;
-                result_sent <= 1;
-            end else if (!aoc_data_valid) begin
-                result_sent <= 0;
             end else begin
                 tx_valid <= 0;
             end
+
+            aoc_result_valid_last <= aoc_result_valid;
         end
     end
 
