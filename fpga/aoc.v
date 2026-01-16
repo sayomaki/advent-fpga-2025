@@ -726,309 +726,307 @@ module aoc (
     output [1:0] debug;
 
     wire [1:0] _29;
-    wire [1:0] _64;
-    wire [1:0] _60;
+    wire [1:0] _63;
     wire [1:0] _59;
+    wire [1:0] _58;
+    wire [1:0] _60;
     wire [1:0] _61;
     wire [1:0] _62;
-    wire [1:0] _63;
-    wire [1:0] _65;
+    wire [1:0] _64;
+    wire [1:0] _66;
     wire [1:0] _67;
-    wire [1:0] _68;
     wire [1:0] _1;
     reg [1:0] _30;
-    wire _69;
-    wire _73;
-    wire _71;
+    wire _68;
     wire _72;
+    wire _70;
+    wire _71;
+    wire _73;
     wire _74;
-    wire _75;
     wire _3;
-    reg _70;
-    wire [63:0] _90;
-    wire [32:0] _80;
-    wire [30:0] _79;
+    reg _69;
+    wire [63:0] _89;
+    wire [32:0] _79;
+    wire [30:0] _78;
+    wire [63:0] _80;
     wire [63:0] _81;
+    wire _77;
     wire [63:0] _82;
-    wire _78;
     wire [63:0] _83;
     wire [63:0] _84;
     wire [63:0] _85;
     wire [63:0] _86;
     wire [63:0] _87;
     wire [63:0] _88;
-    wire [63:0] _89;
     wire [63:0] _5;
     reg [63:0] invalid_sum;
+    wire [63:0] _91;
     wire [63:0] _92;
     wire [63:0] _93;
     wire [63:0] _94;
     wire [63:0] _95;
-    wire [63:0] _96;
     wire [63:0] _6;
-    reg [63:0] _91;
+    reg [63:0] _90;
+    wire _150;
     wire _151;
     wire _152;
-    wire _153;
     wire [32:0] _33;
+    wire [32:0] _146;
     wire [32:0] _147;
-    wire [32:0] _148;
+    wire [32:0] _142;
     wire [32:0] _143;
     wire [32:0] _144;
-    wire [32:0] _145;
     wire [63:0] _9;
-    wire [32:0] _137;
+    wire [32:0] _136;
     wire _11;
-    wire [32:0] _138;
+    wire [32:0] _137;
+    wire [32:0] _133;
     wire [32:0] _134;
-    wire [32:0] _135;
-    wire _127;
-    wire [32:0] _112;
-    wire [32:0] _113;
-    wire _57;
-    wire _97;
-    wire _98;
-    wire _99;
-    wire _100;
-    wire _101;
+    wire _126;
+    wire [32:0] _97;
+    wire [32:0] _96;
+    wire [32:0] _98;
+    wire [32:0] _99;
+    wire [32:0] _100;
+    wire [32:0] _101;
+    wire [32:0] _12;
+    reg [32:0] range;
+    wire [32:0] _118;
+    wire _56;
     wire _102;
-    wire _12;
-    reg _52;
-    wire gnd;
+    wire _103;
     wire _104;
     wire _105;
     wire _106;
     wire _107;
     wire _13;
-    reg _50;
-    wire [79:0] _53;
-    wire _54;
-    wire _55;
-    wire _58;
-    wire [32:0] _114;
-    wire [32:0] _111;
-    wire [32:0] _115;
-    wire [32:0] _116;
-    wire [32:0] _117;
-    wire [32:0] _118;
-    wire [32:0] _119;
-    wire [32:0] _14;
-    reg [32:0] range_counter;
+    reg _51;
+    wire gnd;
+    wire _109;
+    wire _110;
+    wire _111;
+    wire _112;
+    wire _14;
+    reg _49;
     wire _16;
     wire _18;
+    wire [79:0] _52;
+    wire _53;
+    wire _54;
+    wire _57;
+    wire [32:0] _119;
+    wire [32:0] _116;
     wire [32:0] _120;
+    wire [32:0] _121;
     wire [32:0] _122;
     wire [32:0] _123;
     wire [32:0] _124;
-    wire [32:0] _125;
     wire [32:0] _19;
-    reg [32:0] range;
+    reg [32:0] range_counter;
     wire _47;
-    wire _48;
-    wire _128;
+    wire _127;
     wire vdd;
-    wire _103;
-    wire _126;
+    wire _108;
+    wire _125;
+    wire _128;
     wire _129;
     wire _130;
     wire _131;
-    wire _132;
     wire _20;
     reg _40;
     wire _42;
-    wire [32:0] _136;
+    wire [32:0] _135;
+    wire [32:0] _138;
     wire [32:0] _139;
     wire [32:0] _140;
-    wire [32:0] _141;
     wire [32:0] _21;
     reg [32:0] _36;
     wire _38;
-    wire [32:0] _146;
+    wire [32:0] _145;
+    wire [32:0] _148;
     wire [32:0] _149;
-    wire [32:0] _150;
     wire [32:0] _22;
     reg [32:0] _32;
     wire _34;
-    wire _154;
+    wire _153;
     wire [4:0] _27;
     wire [4:0] _24;
     wire _28;
-    wire _155;
+    wire _154;
     wire _25;
-    reg _109;
+    reg _114;
     assign _29 = 2'b00;
-    assign _64 = 2'b01;
-    assign _60 = 2'b11;
-    assign _59 = 2'b10;
-    assign _61 = _58 ? _60 : _59;
-    assign _62 = _48 ? _61 : _30;
-    assign _63 = _42 ? _62 : _30;
-    assign _65 = _38 ? _64 : _63;
-    assign _67 = _34 ? _29 : _65;
-    assign _68 = _28 ? _67 : _30;
-    assign _1 = _68;
+    assign _63 = 2'b01;
+    assign _59 = 2'b11;
+    assign _58 = 2'b10;
+    assign _60 = _57 ? _59 : _58;
+    assign _61 = _47 ? _60 : _30;
+    assign _62 = _42 ? _61 : _30;
+    assign _64 = _38 ? _63 : _62;
+    assign _66 = _34 ? _29 : _64;
+    assign _67 = _28 ? _66 : _30;
+    assign _1 = _67;
     always @(posedge _18) begin
         if (_16)
             _30 <= _29;
         else
             _30 <= _1;
     end
-    assign _69 = 1'b0;
-    assign _73 = _11 ? gnd : vdd;
-    assign _71 = _11 ? gnd : vdd;
-    assign _72 = _38 ? _71 : gnd;
-    assign _74 = _34 ? _73 : _72;
-    assign _75 = _28 ? _74 : _70;
-    assign _3 = _75;
+    assign _68 = 1'b0;
+    assign _72 = _11 ? gnd : vdd;
+    assign _70 = _11 ? gnd : vdd;
+    assign _71 = _38 ? _70 : gnd;
+    assign _73 = _34 ? _72 : _71;
+    assign _74 = _28 ? _73 : _69;
+    assign _3 = _74;
     always @(posedge _18) begin
         if (_16)
-            _70 <= _69;
+            _69 <= _68;
         else
-            _70 <= _3;
+            _69 <= _3;
     end
-    assign _90 = 64'b0000000000000000000000000000000000000000000000000000000000000000;
-    assign _80 = _53[73:41];
-    assign _79 = 31'b0000000000000000000000000000000;
-    assign _81 = { _79,
-                   _80 };
-    assign _82 = invalid_sum + _81;
-    assign _78 = _53[79:79];
-    assign _83 = _78 ? _82 : invalid_sum;
-    assign _84 = _58 ? _83 : invalid_sum;
-    assign _85 = _48 ? _84 : invalid_sum;
-    assign _86 = _42 ? _85 : invalid_sum;
-    assign _87 = _38 ? invalid_sum : _86;
-    assign _88 = _34 ? invalid_sum : _87;
-    assign _89 = _28 ? _88 : invalid_sum;
-    assign _5 = _89;
+    assign _89 = 64'b0000000000000000000000000000000000000000000000000000000000000000;
+    assign _79 = _52[73:41];
+    assign _78 = 31'b0000000000000000000000000000000;
+    assign _80 = { _78,
+                   _79 };
+    assign _81 = invalid_sum + _80;
+    assign _77 = _52[79:79];
+    assign _82 = _77 ? _81 : invalid_sum;
+    assign _83 = _57 ? _82 : invalid_sum;
+    assign _84 = _47 ? _83 : invalid_sum;
+    assign _85 = _42 ? _84 : invalid_sum;
+    assign _86 = _38 ? invalid_sum : _85;
+    assign _87 = _34 ? invalid_sum : _86;
+    assign _88 = _28 ? _87 : invalid_sum;
+    assign _5 = _88;
     always @(posedge _18) begin
         if (_16)
-            invalid_sum <= _90;
+            invalid_sum <= _89;
         else
             invalid_sum <= _5;
     end
-    assign _92 = _48 ? _91 : invalid_sum;
-    assign _93 = _42 ? _92 : _91;
-    assign _94 = _38 ? _91 : _93;
-    assign _95 = _34 ? _91 : _94;
-    assign _96 = _28 ? _95 : _91;
-    assign _6 = _96;
+    assign _91 = _47 ? _90 : invalid_sum;
+    assign _92 = _42 ? _91 : _90;
+    assign _93 = _38 ? _90 : _92;
+    assign _94 = _34 ? _90 : _93;
+    assign _95 = _28 ? _94 : _90;
+    assign _6 = _95;
     always @(posedge _18) begin
         if (_16)
-            _91 <= _90;
+            _90 <= _89;
         else
-            _91 <= _6;
+            _90 <= _6;
     end
-    assign _151 = _48 ? gnd : vdd;
-    assign _152 = _42 ? _151 : gnd;
-    assign _153 = _38 ? _109 : _152;
+    assign _150 = _47 ? gnd : vdd;
+    assign _151 = _42 ? _150 : gnd;
+    assign _152 = _38 ? _114 : _151;
     assign _33 = 33'b000000000000000000000000000000000;
-    assign _147 = _9[32:0];
-    assign _148 = _11 ? _147 : _32;
-    assign _143 = _109 ? _33 : _32;
-    assign _144 = _48 ? _32 : _143;
-    assign _145 = _42 ? _144 : _32;
+    assign _146 = _9[32:0];
+    assign _147 = _11 ? _146 : _32;
+    assign _142 = _114 ? _33 : _32;
+    assign _143 = _47 ? _32 : _142;
+    assign _144 = _42 ? _143 : _32;
     assign _9 = data$value;
-    assign _137 = _9[32:0];
+    assign _136 = _9[32:0];
     assign _11 = data$valid;
-    assign _138 = _11 ? _137 : _36;
-    assign _134 = _109 ? _33 : _36;
-    assign _135 = _48 ? _36 : _134;
-    assign _127 = _109 ? gnd : _126;
-    assign _112 = 33'b000000000000000000000000000000001;
-    assign _113 = range_counter + _112;
-    assign _57 = _52 == gnd;
-    assign _97 = _58 ? vdd : gnd;
-    assign _98 = _48 ? _97 : gnd;
-    assign _99 = _42 ? _98 : gnd;
-    assign _100 = _38 ? _52 : _99;
-    assign _101 = _34 ? _52 : _100;
-    assign _102 = _28 ? _101 : _52;
-    assign _12 = _102;
-    always @(posedge _18) begin
-        if (_16)
-            _52 <= _69;
-        else
-            _52 <= _12;
-    end
-    assign gnd = 1'b0;
-    assign _104 = _103 ? vdd : gnd;
-    assign _105 = _38 ? _50 : _104;
-    assign _106 = _34 ? _50 : _105;
-    assign _107 = _28 ? _106 : _50;
-    assign _13 = _107;
-    always @(posedge _18) begin
-        if (_16)
-            _50 <= _69;
-        else
-            _50 <= _13;
-    end
-    bcd
-        bcd
-        ( .clock(_18),
-          .reset(_16),
-          .convert(_50),
-          .start_value(_32),
-          .increment(_52),
-          .ready(_53[0:0]),
-          .bcd_value(_53[40:1]),
-          .int_value(_53[73:41]),
-          .num_digits(_53[78:74]),
-          .is_invalid(_53[79:79]) );
-    assign _54 = _53[0:0];
-    assign _55 = _54 == vdd;
-    assign _58 = _55 & _57;
-    assign _114 = _58 ? _113 : range_counter;
-    assign _111 = _109 ? _33 : range_counter;
-    assign _115 = _48 ? _114 : _111;
-    assign _116 = _42 ? _115 : range_counter;
-    assign _117 = _38 ? range_counter : _116;
-    assign _118 = _34 ? range_counter : _117;
-    assign _119 = _28 ? _118 : range_counter;
-    assign _14 = _119;
-    always @(posedge _18) begin
-        if (_16)
-            range_counter <= _33;
-        else
-            range_counter <= _14;
-    end
-    assign _16 = reset;
-    assign _18 = clock;
-    assign _120 = _36 - _32;
-    assign _122 = _120 + _112;
-    assign _123 = _38 ? range : _122;
-    assign _124 = _34 ? range : _123;
-    assign _125 = _28 ? _124 : range;
-    assign _19 = _125;
+    assign _137 = _11 ? _136 : _36;
+    assign _133 = _114 ? _33 : _36;
+    assign _134 = _47 ? _36 : _133;
+    assign _126 = _114 ? gnd : _125;
+    assign _97 = 33'b000000000000000000000000000000001;
+    assign _96 = _36 - _32;
+    assign _98 = _96 + _97;
+    assign _99 = _38 ? range : _98;
+    assign _100 = _34 ? range : _99;
+    assign _101 = _28 ? _100 : range;
+    assign _12 = _101;
     always @(posedge _18) begin
         if (_16)
             range <= _33;
         else
-            range <= _19;
+            range <= _12;
     end
-    assign _47 = range < range_counter;
-    assign _48 = ~ _47;
-    assign _128 = _48 ? _126 : _127;
-    assign vdd = 1'b1;
-    assign _103 = ~ _40;
-    assign _126 = _103 ? vdd : _40;
-    assign _129 = _42 ? _128 : _126;
-    assign _130 = _38 ? _40 : _129;
-    assign _131 = _34 ? _40 : _130;
-    assign _132 = _28 ? _131 : _40;
-    assign _20 = _132;
+    assign _118 = range_counter + _97;
+    assign _56 = _51 == gnd;
+    assign _102 = _57 ? vdd : gnd;
+    assign _103 = _47 ? _102 : gnd;
+    assign _104 = _42 ? _103 : gnd;
+    assign _105 = _38 ? _51 : _104;
+    assign _106 = _34 ? _51 : _105;
+    assign _107 = _28 ? _106 : _51;
+    assign _13 = _107;
     always @(posedge _18) begin
         if (_16)
-            _40 <= _69;
+            _51 <= _68;
+        else
+            _51 <= _13;
+    end
+    assign gnd = 1'b0;
+    assign _109 = _108 ? vdd : gnd;
+    assign _110 = _38 ? _49 : _109;
+    assign _111 = _34 ? _49 : _110;
+    assign _112 = _28 ? _111 : _49;
+    assign _14 = _112;
+    always @(posedge _18) begin
+        if (_16)
+            _49 <= _68;
+        else
+            _49 <= _14;
+    end
+    assign _16 = reset;
+    assign _18 = clock;
+    bcd
+        bcd
+        ( .clock(_18),
+          .reset(_16),
+          .convert(_49),
+          .start_value(_32),
+          .increment(_51),
+          .ready(_52[0:0]),
+          .bcd_value(_52[40:1]),
+          .int_value(_52[73:41]),
+          .num_digits(_52[78:74]),
+          .is_invalid(_52[79:79]) );
+    assign _53 = _52[0:0];
+    assign _54 = _53 == vdd;
+    assign _57 = _54 & _56;
+    assign _119 = _57 ? _118 : range_counter;
+    assign _116 = _114 ? _33 : range_counter;
+    assign _120 = _47 ? _119 : _116;
+    assign _121 = _42 ? _120 : range_counter;
+    assign _122 = _38 ? range_counter : _121;
+    assign _123 = _34 ? range_counter : _122;
+    assign _124 = _28 ? _123 : range_counter;
+    assign _19 = _124;
+    always @(posedge _18) begin
+        if (_16)
+            range_counter <= _33;
+        else
+            range_counter <= _19;
+    end
+    assign _47 = range_counter < range;
+    assign _127 = _47 ? _125 : _126;
+    assign vdd = 1'b1;
+    assign _108 = ~ _40;
+    assign _125 = _108 ? vdd : _40;
+    assign _128 = _42 ? _127 : _125;
+    assign _129 = _38 ? _40 : _128;
+    assign _130 = _34 ? _40 : _129;
+    assign _131 = _28 ? _130 : _40;
+    assign _20 = _131;
+    always @(posedge _18) begin
+        if (_16)
+            _40 <= _68;
         else
             _40 <= _20;
     end
     assign _42 = _40 == vdd;
-    assign _136 = _42 ? _135 : _36;
-    assign _139 = _38 ? _138 : _136;
-    assign _140 = _34 ? _36 : _139;
-    assign _141 = _28 ? _140 : _36;
-    assign _21 = _141;
+    assign _135 = _42 ? _134 : _36;
+    assign _138 = _38 ? _137 : _135;
+    assign _139 = _34 ? _36 : _138;
+    assign _140 = _28 ? _139 : _36;
+    assign _21 = _140;
     always @(posedge _18) begin
         if (_16)
             _36 <= _33;
@@ -1036,10 +1034,10 @@ module aoc (
             _36 <= _21;
     end
     assign _38 = _36 == _33;
-    assign _146 = _38 ? _32 : _145;
-    assign _149 = _34 ? _148 : _146;
-    assign _150 = _28 ? _149 : _32;
-    assign _22 = _150;
+    assign _145 = _38 ? _32 : _144;
+    assign _148 = _34 ? _147 : _145;
+    assign _149 = _28 ? _148 : _32;
+    assign _22 = _149;
     always @(posedge _18) begin
         if (_16)
             _32 <= _33;
@@ -1047,21 +1045,21 @@ module aoc (
             _32 <= _22;
     end
     assign _34 = _32 == _33;
-    assign _154 = _34 ? _109 : _153;
+    assign _153 = _34 ? _114 : _152;
     assign _27 = 5'b00100;
     assign _24 = puzzle;
     assign _28 = _24 == _27;
-    assign _155 = _28 ? _154 : _109;
-    assign _25 = _155;
+    assign _154 = _28 ? _153 : _114;
+    assign _25 = _154;
     always @(posedge _18) begin
         if (_16)
-            _109 <= _69;
+            _114 <= _68;
         else
-            _109 <= _25;
+            _114 <= _25;
     end
-    assign result$valid = _109;
-    assign result$value = _91;
-    assign data_ready = _70;
+    assign result$valid = _114;
+    assign result$value = _90;
+    assign data_ready = _69;
     assign debug = _30;
 
 endmodule

@@ -102,7 +102,7 @@ let%expect_test "Simple test with printing waveforms directly" =
       Waveform.print
         ~display_rules
         ~signals_width:26
-        ~display_width:160
+        ~display_width:140
         ~wave_width:1
         ~start_cycle:76
         waves;
