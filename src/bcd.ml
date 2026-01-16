@@ -4,8 +4,8 @@ open! Core
 open! Hardcaml
 open! Signal
 
-let num_bits = 33
-let bcd_digits = 10
+let num_bits = 34
+let bcd_digits = 11
 
 let () = assert (Float.((2. ** (Float.of_int num_bits)) <= (10. ** (Float.of_int bcd_digits))))
 
@@ -98,14 +98,14 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         select bcd ~high:7 ~low:0 ==: select bcd ~high:15 ~low:8;
         select bcd ~high:11 ~low:0 ==: select bcd ~high:23 ~low:12;
         select bcd ~high:15 ~low:0 ==: select bcd ~high:31 ~low:16;
-        select bcd ~high:19 ~low:0 ==: select bcd ~high:39 ~low:20
-      ] @ if bcd_digits > 10 then [  
+        select bcd ~high:19 ~low:0 ==: select bcd ~high:39 ~low:20;
+      ] @ if bcd_digits > 11 then [  
         (* additional cases for 64-bit/20 digit support *)
         select bcd ~high:23 ~low:0 ==: select bcd ~high:47 ~low:24;
         select bcd ~high:27 ~low:0 ==: select bcd ~high:55 ~low:28;
         select bcd ~high:31 ~low:0 ==: select bcd ~high:63 ~low:32;
         select bcd ~high:35 ~low:0 ==: select bcd ~high:71 ~low:36;
-        select bcd ~high:39 ~low:0 ==: select bcd ~high:79 ~low:40
+        select bcd ~high:39 ~low:0 ==: select bcd ~high:79 ~low:40;
       ] else [])
     )
   in
