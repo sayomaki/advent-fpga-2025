@@ -9,7 +9,7 @@ module I = struct
     { clock : 'a
     ; reset : 'a
     ; convert : 'a
-    ; start_value: 'a [@bits 34]
+    ; start_value: 'a [@bits 33]
     ; increment : 'a
     }
   [@@deriving hardcaml]
@@ -19,7 +19,7 @@ module O = struct
   type 'a t = 
     { ready : 'a
     ; bcd_value : 'a [@bits 40]
-    ; int_value : 'a [@bits 34]
+    ; int_value : 'a [@bits 33]
     ; num_digits : 'a [@bits 4]
     ; is_invalid : 'a
     }
@@ -42,9 +42,9 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let sm = State_machine.create (module States) spec in
   let _scope = scope in
 
-  let int_value = Variable.reg spec ~width:34 in
+  let int_value = Variable.reg spec ~width:33 in
   let bcd_value = Variable.reg spec ~width:40 in
-  let%hw_var convert_buffer = Variable.reg spec ~width:34 in
+  let%hw_var convert_buffer = Variable.reg spec ~width:33 in
   let%hw_var bits_processed = Variable.reg spec ~width:6 in (* keep track processed bits *)
 
   let ready = Variable.wire ~default:gnd () in
@@ -140,7 +140,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         );
         (Converting,
         (process_bit ()) @ [
-          when_ (bits_processed.value ==:. 33) [
+          when_ (bits_processed.value ==:. 32) [
             sm.set_next Checking;
           ];
         ]
