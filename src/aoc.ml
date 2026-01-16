@@ -38,10 +38,10 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
     let convert_started = Variable.reg spec ~width:1 in
     let increment = Variable.reg spec ~width:1 in 
 
-    let start_value = Variable.reg spec ~width:33 in
-    let end_value = Variable.reg spec ~width:33 in
-    let%hw_var range = Variable.reg spec ~width:33 in
-    let%hw_var range_counter = Variable.reg spec ~width:33 in
+    let start_value = Variable.reg spec ~width:Bcd.num_bits in
+    let end_value = Variable.reg spec ~width:Bcd.num_bits in
+    let%hw_var range = Variable.reg spec ~width:Bcd.num_bits in
+    let%hw_var range_counter = Variable.reg spec ~width:Bcd.num_bits in
     let%hw_var invalid_sum = Variable.reg spec ~width:64 in
 
     let bcd = Bcd.hierarchical scope in
@@ -53,7 +53,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         data_ready <-- vdd;
 
         when_ (data.valid) [
-          start_value <-- sel_bottom data.value ~width:33;
+          start_value <-- sel_bottom data.value ~width:Bcd.num_bits;
           data_ready <-- gnd;
         ];
       ] (elif (end_value.value ==:. 0) [
@@ -61,7 +61,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         data_ready <-- vdd;
 
         when_ (data.valid) [
-          end_value <-- sel_bottom data.value ~width:33;
+          end_value <-- sel_bottom data.value ~width:Bcd.num_bits;
           data_ready <-- gnd;
         ];
       ] [

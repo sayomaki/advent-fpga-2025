@@ -1,6 +1,8 @@
 open! Core
 open! Hardcaml
 
+val num_bits : int
+
 module I : sig
   type 'a t =
     { clock : 'a

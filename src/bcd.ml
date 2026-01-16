@@ -1,15 +1,20 @@
-(** A simple? iterative Binary Coded Decimal representation for 32 bit integers, with some additions and tweaks for AoC Day 2 *)
+(** A simple? iterative Binary Coded Decimal representation for n-bit integers, with some additions and tweaks for AoC Day 2 *)
 
 open! Core
 open! Hardcaml
 open! Signal
+
+let num_bits = 33
+let bcd_digits = 10
+
+let () = assert (Float.((2. ** (Float.of_int num_bits)) <= (10. ** (Float.of_int bcd_digits))))
 
 module I = struct
   type 'a t = 
     { clock : 'a
     ; reset : 'a
     ; convert : 'a
-    ; start_value: 'a [@bits 33]
+    ; start_value: 'a [@bits num_bits]
     ; increment : 'a
     }
   [@@deriving hardcaml]
@@ -18,9 +23,9 @@ end
 module O = struct 
   type 'a t = 
     { ready : 'a
-    ; bcd_value : 'a [@bits 40]
-    ; int_value : 'a [@bits 33]
-    ; num_digits : 'a [@bits 4]
+    ; bcd_value : 'a [@bits 4*bcd_digits]
+    ; int_value : 'a [@bits num_bits]
+    ; num_digits : 'a [@bits 4] (* update this if changing bcd_digits *)
     ; is_invalid : 'a
     }
   [@@deriving hardcaml]
@@ -42,9 +47,9 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let sm = State_machine.create (module States) spec in
   let _scope = scope in
 
-  let int_value = Variable.reg spec ~width:33 in
-  let bcd_value = Variable.reg spec ~width:40 in
-  let%hw_var convert_buffer = Variable.reg spec ~width:33 in
+  let int_value = Variable.reg spec ~width:num_bits in
+  let bcd_value = Variable.reg spec ~width:(4*bcd_digits) in
+  let%hw_var convert_buffer = Variable.reg spec ~width:num_bits in
   let%hw_var bits_processed = Variable.reg spec ~width:6 in (* keep track processed bits *)
 
   let ready = Variable.wire ~default:gnd () in
@@ -56,14 +61,14 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
 
   (* double dabble algorithm; adjust then shift *)
   let process_bit () =
-    let adjusted_digits = List.init 10 ~f:(fun i -> 
+    let adjusted_digits = List.init bcd_digits ~f:(fun i -> 
       let digit = select bcd_value.value ~high:((i+1)*4 - 1) ~low:(i*4) in
       double_dabble_adder digit
     ) in
 
     let bcd_adjusted_value = concat_msb (List.rev adjusted_digits) in
     let next_bit = msb convert_buffer.value in
-    let bcd_shifted = concat_msb [ sel_bottom ~width:39 bcd_adjusted_value; next_bit] in
+    let bcd_shifted = concat_msb [ sel_bottom ~width:(4*bcd_digits - 1) bcd_adjusted_value; next_bit] in
     let int_shifted = sll convert_buffer.value ~by:1 in
 
     [
@@ -73,13 +78,13 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
     ]
   in
 
-  (* helper to find the most significant digit in 10-digit BCD *)
+  (* helper to find the most significant digit in the BCD *)
   let rec most_sig_digit = function
     | [] -> zero 4
     | (i, x) :: xs -> mux2 (x ==:. 0) (most_sig_digit xs) i
   in
 
-  let bcd_value_to_digits bcd = List.init 10 ~f:(fun i ->
+  let bcd_value_to_digits bcd = List.init bcd_digits ~f:(fun i ->
     (of_int_trunc ~width:4 (i+1), select bcd ~high:((i+1)*4 - 1) ~low:(i*4))
   ) in
 
@@ -127,7 +132,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
           ready <-- vdd;
 
           if_ convert [
-            bcd_value <-- zero 40;
+            bcd_value <-- zero (4*bcd_digits);
             bits_processed <-- zero 6;
             convert_buffer <-- start_value;
             int_value <-- start_value;
@@ -140,7 +145,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         );
         (Converting,
         (process_bit ()) @ [
-          when_ (bits_processed.value ==:. 32) [
+          when_ (bits_processed.value ==:. (num_bits - 1)) [
             sm.set_next Checking;
           ];
         ]
