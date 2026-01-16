@@ -3,6 +3,12 @@ INSTALL_ARGS := $(if $(PREFIX),--prefix $(PREFIX),)
 default:
 	dune build
 
+test:
+	dune test
+
+verilog:
+	dune exec bin/generate.exe aoc > fpga/aoc.v
+
 install:
 	dune install $(INSTALL_ARGS)
 
