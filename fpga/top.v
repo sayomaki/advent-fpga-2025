@@ -13,6 +13,7 @@ module top (
 
     wire clk = clk_int;
     wire reset = ~btn[2] | interconnect[2];
+    wire output_en = interconnect[3];
 
     // ------------------------------------------------------------------------
     // ¨UART code from greybadge25 (credits to @Hackin7 for implementation)
@@ -98,14 +99,22 @@ module top (
             tx_valid  <= 0;
             aoc_result_valid_last <= 0;
         end else begin
-            if (aoc_result_valid && !aoc_result_valid_last) begin
+            /* debugging: print every iteration */
+            // if (aoc_result_valid && !aoc_result_valid_last) begin
+            //     tx_buffer   <= aoc_result_value;
+            //     tx_valid    <= 1;
+            // end else begin
+            //     tx_valid <= 0;
+            // end
+            // aoc_result_valid_last <= aoc_result_valid;
+
+            /* only print final result when requested by pulseing output_en */
+            if (aoc_result_valid && output_en) begin
                 tx_buffer   <= aoc_result_value;
                 tx_valid    <= 1;
             end else begin
                 tx_valid <= 0;
             end
-
-            aoc_result_valid_last <= aoc_result_valid;
         end
     end
 
