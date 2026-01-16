@@ -25,7 +25,7 @@ module O = struct
     { ready : 'a
     ; bcd_value : 'a [@bits 4*bcd_digits]
     ; int_value : 'a [@bits num_bits]
-    ; num_digits : 'a [@bits 4] (* update this if changing bcd_digits *)
+    ; num_digits : 'a [@bits 5] (* update this if changing bcd_digits *)
     ; is_invalid : 'a
     }
   [@@deriving hardcaml]
@@ -53,7 +53,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
   let%hw_var bits_processed = Variable.reg spec ~width:6 in (* keep track processed bits *)
 
   let ready = Variable.wire ~default:gnd () in
-  let num_digits = Variable.reg spec ~width:4 in
+  let num_digits = Variable.reg spec ~width:5 in
   let is_invalid = Variable.reg spec ~width:1 in
   let checking_digits = Variable.reg spec ~width:1 in
   
@@ -78,28 +78,35 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
     ]
   in
 
-  (* helper to find the most significant digit in the BCD *)
-  let rec most_sig_digit = function
-    | [] -> zero 4
-    | (i, x) :: xs -> mux2 (x ==:. 0) (most_sig_digit xs) i
+  (* helper to find the most significant digit position in the BCD *)
+  let rec most_sig_digit_pos = function
+    | [] -> zero 5
+    | (i, x) :: xs -> mux2 (x ==:. 0) (most_sig_digit_pos xs) (of_int_trunc ~width:5 i)
   in
 
   let bcd_value_to_digits bcd = List.init bcd_digits ~f:(fun i ->
-    (of_int_trunc ~width:4 (i+1), select bcd ~high:((i+1)*4 - 1) ~low:(i*4))
+    (i+1, select bcd ~high:((i+1)*4 - 1) ~low:(i*4))
   ) in
 
   (* AoC 2025 day2 specific -- check if number is "invalid" *)
   let check_is_invalid bcd digits =
     mux2 (lsb digits) gnd (
-      mux (srl digits ~by:1) [
+      mux (srl digits ~by:1) ([
         gnd;  (* 0 digits? *)
         (* hardcoded cases for 2, 4, 6, 8 and 10 digits respectively *)
         select bcd ~high:3 ~low:0 ==: select bcd ~high:7 ~low:4;
         select bcd ~high:7 ~low:0 ==: select bcd ~high:15 ~low:8;
         select bcd ~high:11 ~low:0 ==: select bcd ~high:23 ~low:12;
         select bcd ~high:15 ~low:0 ==: select bcd ~high:31 ~low:16;
-        select bcd ~high:19 ~low:0 ==: select bcd ~high:39 ~low:20;
-      ]
+        select bcd ~high:19 ~low:0 ==: select bcd ~high:39 ~low:20
+      ] @ if bcd_digits > 10 then [  
+        (* additional cases for 64-bit/20 digit support *)
+        select bcd ~high:23 ~low:0 ==: select bcd ~high:47 ~low:24;
+        select bcd ~high:27 ~low:0 ==: select bcd ~high:55 ~low:28;
+        select bcd ~high:31 ~low:0 ==: select bcd ~high:63 ~low:32;
+        select bcd ~high:35 ~low:0 ==: select bcd ~high:71 ~low:36;
+        select bcd ~high:39 ~low:0 ==: select bcd ~high:79 ~low:40
+      ] else [])
     )
   in
 
@@ -158,7 +165,7 @@ let create scope ({ clock; reset; convert; start_value; increment } : _ I.t) : _
         (Checking,
         [
           if_ ~:(checking_digits.value) [
-            num_digits <-- most_sig_digit (List.rev (bcd_value_to_digits bcd_value.value));
+            num_digits <-- most_sig_digit_pos (List.rev (bcd_value_to_digits bcd_value.value));
             checking_digits <-- vdd;
           ] [
             is_invalid <-- check_is_invalid bcd_value.value num_digits.value;
