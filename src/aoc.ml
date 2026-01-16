@@ -78,7 +78,7 @@ let create scope ({ clock; reset; data; puzzle} : _ I.t) : _ O.t
         ];
 
         when_ (convert_started.value ==: vdd) [
-          if_ (range_counter.value <=: range.value) [
+          if_ (range_counter.value <: range.value) [
             debug <--. 2;
             when_ ((number.ready ==: vdd) &: (increment.value ==: gnd)) [
               debug <--. 3;
